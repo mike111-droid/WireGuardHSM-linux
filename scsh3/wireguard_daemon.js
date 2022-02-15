@@ -1,7 +1,7 @@
 /*
- * Example to decrypt using RSA with PKCS#1 formats V1.5 and OAEP
+ * wireguard_daemon.js
+ * Hashes oldpsk and signs it with the key RSA_KEY on the HSM. Then prints result in base64 to consol in format "++++<RESULT>"
  */
-
 
 SmartCardHSM = require('scsh/sc-hsm/SmartCardHSM').SmartCardHSM;
 HSMKeyStore = require('scsh/sc-hsm/HSMKeyStore').HSMKeyStore;

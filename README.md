@@ -13,7 +13,8 @@ This program is the attempt to include a Hardware Security Module into the [Wire
 $ git clone https://github.com/mike111-droid/WireguardHSM-linux  
 $ cd WireguardHSM-linux  
 $ bash setup
+$ sudo ./start
 ```
 
-*setup* starts a script that lets you input the necessary settings or that automatically set them. **
+*setup* starts a script that lets you input the necessary settings or that automatically set them. *recompile* allows to recompile with the current settings.
 ## Functionality

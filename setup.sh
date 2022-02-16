@@ -16,7 +16,7 @@ done
 echo "OK"
 
 echo -e "[*] Checking for necessary files..."
-# Check if all necessary files are in wireguard directory
+# Check if all necessary files are in wireguardhsm directory
 suffix="wireguardhsm/"
 for name in config_changer.h parser.h settings.h signals.h types.h wireguardhsm.c
 do

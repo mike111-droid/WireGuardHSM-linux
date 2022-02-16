@@ -16,5 +16,5 @@ $ bash setup
 $ sudo ./start
 ```
 
-*setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings.
+*setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings. *start* is the executable that needs to execute with root privilages in order to access wireguard.
 ## Functionality

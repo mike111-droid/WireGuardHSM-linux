@@ -16,5 +16,5 @@ $ bash setup
 $ sudo ./start
 ```
 
-*setup* starts a script that lets you input the necessary settings or that automatically set them. *recompile* allows to recompile with the current settings.
+*setup* starts a script that lets you input the necessary settings or that automatically sets them. *recompile* allows to recompile with the current settings.
 ## Functionality

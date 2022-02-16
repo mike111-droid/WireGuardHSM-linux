@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcc -o start wireguard/wireguard.c
+gcc -o start wireguardhsm/wireguardhsm.c

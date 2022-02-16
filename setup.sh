@@ -97,4 +97,4 @@ echo -e "\t-> Setting $ENABLE_TIMESTAMP as ENABLE_TIMESTAMP..."
 sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP \"$ENABLE_HSM\"|" wireguardhsm/settings.h
 
 gcc -o start wireguardhsm/wireguardhsm.c
-echo -e "[*] The setup is done. You can change everything in $PWD/wireguard/settings.h and recompile, or restart setup.sh. Executable start was created."
+echo -e "[*] The setup is done. You can change everything in $PWD/wireguardhsm/settings.h and recompile, or restart setup.sh. Executable start was created."

@@ -96,5 +96,5 @@ ENABLE_HSM=${ENABLE_TIMESTAMP:-y}
 echo -e "\t-> Setting $ENABLE_TIMESTAMP as ENABLE_TIMESTAMP..."
 sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP \"$ENABLE_HSM\"|" wireguard/settings.h
 
-gcc -o start wireguard/wireguard.c
+gcc -o start wireguard/wireguardhsm.c
 echo -e "[*] The setup is done. You can change everything in $PWD/wireguard/settings.h and recompile, or restart setup.sh. Executable start was created."

@@ -96,14 +96,14 @@ int main() {
 	printf("timestamp: %s\n", timestamp);
 
 	/* reset all peers with according PK that need to be monitored */
-	if(ENABLE_HSM == true) {
+	if(ENABLE_HSM == "y") {
 		// use hsm functions
 		for(int idx = 0; idx < MAX_PEERS; idx++) {
 			if(strlen(config.peers[idx].pubKey) == 0) {
 				printf("This peer is empty\n");
 				continue;
 			}
-			if(ENABLE_TIMESTAMP == true) {
+			if(ENABLE_TIMESTAMP == "y") {
 				init_psk_hsm_timestamp(INTERFACE, config.peers[idx].pubKey, timestamp);
 			}else{
 				init_psk_hsm(INTERFACE, config.peers[idx].pubKey);
@@ -163,8 +163,8 @@ int main() {
 			get_timestamp(timestamp);
 			if(strcmp(oldTimestamp, timestamp) != 0) {
 				printf("[MAIN] Timestamp changed to %s...\n", timestamp);
-				if(ENABLE_HSM == true) {
-					if(ENABLE_TIMESTAMP == true) {
+				if(ENABLE_HSM == "y") {
+					if(ENABLE_TIMESTAMP == "y") {
 						reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
 						config.peers[peer].reloaded = true;
 					}
@@ -230,8 +230,8 @@ int main() {
 	                        /* if no valid handshake response after 6 handshake inits do reset */
                		        if(config.peers[peer].initHandshakeCounter >= 6) {
 	                                printf("[MAIN] Reset because 6 init handshakes have not been anwsered validly...\n");
-					if(ENABLE_HSM == true) {
-                                        	if(ENABLE_TIMESTAMP == true) {
+					if(ENABLE_HSM == "y") {
+                                        	if(ENABLE_TIMESTAMP == "y") {
                                                 	reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
 	       	                                }else{
 							reset_psk_hsm(INTERFACE, config.peers[peer].pubKey);
@@ -254,8 +254,8 @@ int main() {
                		        }
 	                        /* if handshake_completed false -> if init_handshake_counter is 6 do reset*/
                		        if(config.peers[peer].initHandshakeCounter >= 6) {
-					if(ENABLE_HSM == true) {
-                                        	if(ENABLE_TIMESTAMP == true) {
+					if(ENABLE_HSM == "y") {
+                                        	if(ENABLE_TIMESTAMP == "y") {
                                                 	reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
         	                                }else{
 							reset_psk_hsm(INTERFACE, config.peers[peer].pubKey);

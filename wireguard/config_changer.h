@@ -56,7 +56,7 @@ void get_timestamp(char *timestamp) {
  * @para pk:        public key to identify peer
  */
 void init_psk_hsm(char *interface, char *pk) {
-	printf("Starting init_psk_psk...\n");
+	printf("Starting init_psk_hsm...\n");
 	/* Write INIT_PSK to js for scsh3 execution */
 	// TODO: Escape oldpsk if really psk and not timestamp
 	write_oldpsk_to_js(INIT_PSK);
@@ -257,7 +257,7 @@ void init_psk(char *interface, char *pk) {
         int ret = config_change(interface, pk, RESET_PSK);
 	if(ret != 0) printf("[ERROR] config_change failed\n");
 	printf("PSK was init\n");
-        printf("\tnew psk :%s\n", RESET_PSK);
+        printf("\tnew psk: %s\n", RESET_PSK);
 }
 
 /*

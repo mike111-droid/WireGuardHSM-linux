@@ -13,26 +13,26 @@
 /* Directory to wireguard interface config files. */
 #define WIREGUARD_DIR    "/etc/wireguard"
 
-/* Reset preshared key for connections with ENABLE_HSM=false (without HSM). */
+/* Reset preshared key for connections with ENABLE_HSM="n" (without HSM). */
 #define RESET_PSK        "or/ZJXL3mejqaF+5TyGpYhr02ceXgE15Ysqt2Xia81o="
 
-/* Init value for ENABLE_TIMESTAMP=false and ENABLE_HSM=true. */
+/* Init value for ENABLE_TIMESTAMP=false and ENABLE_HSM="y". */
 #define INIT_PSK         "Init_value_for_init_psk_hsm_without_timestamp"
 
 /* Name of the interface. Corresponding config file is "wg0.conf". */
 #define INTERFACE        "wg0"
 
 /* Path to directory with wireguard daemon program. */
-#define WORK_DIR         "/home/micha/sciebo/Praktikum/Industriepraktikum/BSI/BSI_projects/daemon/wireguard_daemon/c/wireguard_automatic_complex"
+#define WORK_DIR         "/home/micha/github/WireguardHSM-linux"
 
 /* Path to directory with SmartCard Shell 3 from CardContact with according js script for scsh3 and expect script for wireguard daemon. */
 #define SCSH_DIR         "/home/micha/CardContact/scsh3"
 
 /* Macro defines if first PSK should be calculate with the help of HSM(INIT_PSK) or use static RESET_PSK */
-#define ENABLE_HSM       true
+#define ENABLE_HSM       "y"
 
 /* Macro defines if timestamp should be used */
-#define ENABLE_TIMESTAMP true
+#define ENABLE_TIMESTAMP "y"
 
 
 #endif // SETTINGS_H

@@ -77,11 +77,21 @@ int main() {
 	char sending_resp_handshake_line[len_sending_resp_handshake_line];
 	snprintf(sending_resp_handshake_line, len_sending_resp_handshake_line, "wireguard: %s: Sending handshake response to peer", INTERFACE);
 
+	if(ENABLE_SECUREMODE != "y") {
+		char pin[PIN_SIZE];
+		printf("Please enter the PIN for the HSM. It will be stored in wireguard_daemon.js (with access permissions asigned). This is a potential secure risk. For more security use SECUREMODE...\n");
+		getPassword(pin);
+		write_pin_to_js(pin);
+		for(int idx = 0; idx < strlen(pin); idx++) {
+			pin[idx] = '\0';	
+		}
+	}
+	
 	/* Create string commands to start wireguard interface */
 	char up_interface[BUF_MEDIUM];
         snprintf(up_interface, sizeof(up_interface), "sudo wg-quick up %s", INTERFACE);
 
-	/* prevent monitor process to read old handshakes by writing the last 5 lines with + */
+	/* Prevent monitor process to read old handshakes by writing the last 5 lines with + */
 	for(int idx = 0; idx < 5; idx++) {
 		system("sudo bash -c \"echo + >> /var/log/kern.log\"");
 	}

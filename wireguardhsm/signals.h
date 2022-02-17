@@ -8,6 +8,8 @@
 #define SIGNALS_H
 
 #include <signal.h>
+#include "config_changer.h"
+#include "settings.h"
 
 /* Signal_callback_handler for main process */
 void signal_callback_handler_main(int signum) {
@@ -23,6 +25,9 @@ void signal_callback_handler_main(int signum) {
 		if(msgctl(msgid_main, IPC_RMID, NULL) == -1) {
 			fprintf(stderr, "Message queue could not be deleted.\n");
 			exit(EXIT_FAILURE);
+		}
+		if(ENABLE_SECUREMODE != "y") {
+			write_pin_to_js("654321");	
 		}
 		printf("[MAIN] Message queue was deleted\n");
 		/* Disabling dynamic debug */

@@ -16,7 +16,7 @@ $ bash setup
 $ sudo ./start_wg0-hsm_y-timestamp_y
 ```
 
-*setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings. *start* is the executable that needs to execute with root privilages in order to access wireguard.
+*setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privilages in order to access wireguard. It also includes the important settings in the name such as if HSM or HSM_TIMESTAMP is enabled, or which interface will be started.
 
 ## Functionality
 The application works as a wrap-around daemon. This means Wireguard was not changed at all. The WireguardHSM connection is only managed from the outside with shell commands and the wireguard config file. Essential is the shell command *wg addconf %s <(wg-quick strip wgX* that allows to reload the config file *wgX.conf* without restarting the tunnel.  

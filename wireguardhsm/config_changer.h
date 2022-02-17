@@ -93,6 +93,7 @@ void init_psk_hsm(char *interface, char *pk) {
 
 	/* Get PIN for HSM access */
 	char pin[PIN_SIZE];
+	printf("Enter the PIN for the HSM: \n");
 	getPassword(pin);
 
 	/* Write PIN to java script file that needs it */
@@ -155,6 +156,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 
 	/* Get PIN for HSM access */
         char pin[PIN_SIZE];
+	printf("Enter the PIN for the HSM: \n");
         getPassword(pin);
 
         /* Write PIN to java script file that needs it */
@@ -217,6 +219,7 @@ void reset_psk_hsm(char *interface, char *pk) {
 
 	/* Get PIN for HSM access */
         char pin[PIN_SIZE];
+	printf("Enter the PIN for the HSM: \n");
         getPassword(pin);
 
         /* Write PIN to java script file that needs it */
@@ -284,6 +287,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 
 	/* Get PIN for HSM access */
         char pin[PIN_SIZE];
+	printf("Enter the PIN for the HSM: \n");
         getPassword(pin);
 
         /* Write PIN to java script file that needs it */

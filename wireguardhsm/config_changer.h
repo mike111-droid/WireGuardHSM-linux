@@ -62,7 +62,7 @@ void init_psk_hsm(char *interface, char *pk) {
 	write_oldpsk_to_js(INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.ex;\"", SCSH_DIR);
+	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */
@@ -109,7 +109,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	write_oldpsk_to_js(timestamp);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.ex;\"", SCSH_DIR);
+	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */
@@ -156,7 +156,7 @@ void reset_psk_hsm(char *interface, char *pk) {
 	write_oldpsk_to_js(INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.ex;\"", SCSH_DIR);
+	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */
@@ -208,7 +208,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	write_oldpsk_to_js(timestamp);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.ex;\"", SCSH_DIR);
+	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */

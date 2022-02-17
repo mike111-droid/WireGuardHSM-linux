@@ -77,7 +77,7 @@ int main() {
 	char sending_resp_handshake_line[len_sending_resp_handshake_line];
 	snprintf(sending_resp_handshake_line, len_sending_resp_handshake_line, "wireguard: %s: Sending handshake response to peer", INTERFACE);
 
-	if(ENABLE_SECUREMODE != "y") {
+	if(ENABLE_SECUREMODE != "y" && ENABLE_HSM == "y") {
 		char pin[PIN_SIZE];
 		printf("Please enter the PIN for the HSM. It will be stored in wireguard_daemon.js (with access permissions asigned). This is a potential secure risk. For more security use SECUREMODE...\n");
 		getPassword(pin);

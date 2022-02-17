@@ -1,7 +1,7 @@
 # WireguardHSM-linux
 
 ## Introduction
-This program is the attempt to include a Hardware Security Module into the [Wireguard VPN](https://github.com/WireGuard). For this I used the [SmartCard-HSM USB Token](https://www.cardomatic.de/SmartCard-HSM-4K-USB-Token). In order for two communications peers to use this feature you need to identical keys on two seperat SmartCard-HSM's. The following will describe how to setup this application on Linux Ubuntu 20.04 (Disclaimer: It might work on other distros and versions too but was not tested there).
+This program is an attempt to include a Hardware Security Module into the [Wireguard VPN](https://github.com/WireGuard). For this, I used the [SmartCard-HSM USB Token](https://www.cardomatic.de/SmartCard-HSM-4K-USB-Token). In order for two communications peers to use this feature, you need identical keys on two seperate SmartCard-HSM's. The following will describe how to set up this application on Linux Ubuntu 20.04 (Disclaimer: It might work on other distros and versions as well but was not tested there).
 
 ## Setting up the SmartCard-HSM's
 1. **Installing swissbit driver for SmartCard-HSM**: The necessary instructions are all in [SmartCard-HSM Starterkit](http://www.cardcontact.de/download/sc-hsm-starterkit.zip)

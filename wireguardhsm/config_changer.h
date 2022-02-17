@@ -91,9 +91,9 @@ void get_timestamp(char *timestamp) {
 void init_psk_hsm(char *interface, char *pk) {
 	printf("Starting init_psk_hsm...\n");
 
+	char pin[PIN_SIZE];
 	if(ENABLE_SECUREMODE == "y") {
 		/* Get PIN for HSM access */
-		char pin[PIN_SIZE];
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
 		/* Write PIN to java script file that needs it */
@@ -156,9 +156,9 @@ void init_psk_hsm(char *interface, char *pk) {
 void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting init_psk_hsm_timestamp...\n");
 
+	char pin[PIN_SIZE];
 	if(ENABLE_SECUREMODE == "y") {
 		/* Get PIN for HSM access */
-		char pin[PIN_SIZE];
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
 		/* Write PIN to java script file that needs it */
@@ -221,9 +221,9 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 void reset_psk_hsm(char *interface, char *pk) {
 	printf("Starting reset_psk_hsm...\n");
 
+	char pin[PIN_SIZE];
 	if(ENABLE_SECUREMODE == "y") {
 		/* Get PIN for HSM access */
-		char pin[PIN_SIZE];
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
 		/* Write PIN to java script file that needs it */
@@ -291,9 +291,9 @@ void reset_psk_hsm(char *interface, char *pk) {
 void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting reset_psk_hsm_timestamp...\n");
 
+	char pin[PIN_SIZE];
 	if(ENABLE_SECUREMODE == "y") {
 		/* Get PIN for HSM access */
-		char pin[PIN_SIZE];
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
 		/* Write PIN to java script file that needs it */

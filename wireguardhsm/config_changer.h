@@ -42,28 +42,28 @@ int  get_psk                    (char*,  char*,         char*);
  */
 void getPassword(char password[])
 {
-    static struct termios oldt, newt;
-    int i = 0;
-    int c;
+	static struct termios oldt, newt;
+    	int i = 0;
+    	int c;
 
-    /*saving the old settings of STDIN_FILENO and copy settings for resetting*/
-    tcgetattr( STDIN_FILENO, &oldt);
-    newt = oldt;
+    	/*saving the old settings of STDIN_FILENO and copy settings for resetting*/
+    	tcgetattr( STDIN_FILENO, &oldt);
+    	newt = oldt;
 
-    /*setting the approriate bit in the termios struct*/
-    newt.c_lflag &= ~(ECHO);
+    	/*setting the approriate bit in the termios struct*/
+    	newt.c_lflag &= ~(ECHO);
 
-    /*setting the new bits*/
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt);
+    	/*setting the new bits*/
+    	tcsetattr( STDIN_FILENO, TCSANOW, &newt);
 
-    /*reading the password from the console*/
-    while ((c = getchar())!= '\n' && c != EOF && i < PIN_SIZE){
-        password[i++] = c;
-    }
-    password[i] = '\0';
+    	/*reading the password from the console*/
+    	while ((c = getchar())!= '\n' && c != EOF && i < PIN_SIZE){
+	        password[i++] = c;
+    	}
+    	password[i] = '\0';
 
-    /*resetting our old STDIN_FILENO*/
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
+    	/*resetting our old STDIN_FILENO*/
+    	tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 }
 
 
@@ -488,7 +488,7 @@ void reload_config(char *interface, int peer, struct Config config) {
 	if(ret != 0) printf("[ERROR] config_change failed\n");
 	/* Excute shell command to reload config for wireguard */
         system("sudo bash -c \"wg addconf wg0 <(wg-quick strip wg0)\"");
-	printf("Reloaded psk with %s from old %s\n", line, config.peers[peer].psk);
+	printf("[%s] Reloaded psk with %s from old %s\n", config.peers[peer].pubKey, line, config.peers[peer].psk);
 }
 
 

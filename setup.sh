@@ -60,8 +60,8 @@ sed -i  "s|#define WORK_DIR .*|#define WORK_DIR         \"$WORK_DIR\"|" wireguar
 
 # SCSH3_DIR
 echo -en "\t"
-read -p "[*] Enter directory where SmartCard Shell 3 (scsh3) is located [$HOME/CardContact/scsh3]: " SCSH3_DIR
-SCSH3_DIR=${SCSH3_DIR:-$HOME/CardContact/scsh3}
+read -p "[*] Enter directory where SmartCard Shell 3 (scsh3) is located [$HOME/CardContact/scsh3]: " SCSH3_DIR_TMP
+SCSH3_DIR=${SCSH3_DIR_TMP:-$HOME/CardContact/scsh3}
 echo -e "\t-> Setting $SCSH3_DIR as SCSH3_DIR..."
 sed -i "s|#define SCSH3_DIR .*|#define SCSH3_DIR         \"$SCSH3_DIR\"|" wireguardhsm/settings.h
 echo -e "\t-> Removing wireguard_daemon.js and wireguard_daemon.ex from $SCSH3_DIR..."
@@ -73,36 +73,36 @@ cp scsh3/wireguard_daemon.expect $SCSH3_DIR
 
 # INTERFACE
 echo -en "\t"
-read -p "[*] Enter name of interface you want the daemon to monitor [wg0]: " INTERFACE
-INTERFACE=${INTERFACE:-wg0}
+read -p "[*] Enter name of interface you want the daemon to monitor [wg0]: " INTERFACE_TMP
+INTERFACE=${INTERFACE_TMP:-wg0}
 echo -e "\t-> Setting $INTERFACE as INTERFACE. $INTERFACE.conf is the according config file..."
 sed -i "s|#define INTERFACE .*|#define INTERFACE         \"$INTERFACE\"|" wireguardhsm/settings.h
 
 # MAX_PEERS
 echo -en "\t"
-read -p "[*] Enter the number of expected/maximal peers in the interface config [1]: " MAX_PEERS
-MAX_PEERS=${MAX_PEERS:-1}
+read -p "[*] Enter the number of expected/maximal peers in the interface config [1]: " MAX_PEERS_TMP
+MAX_PEERS=${MAX_PEERS_TMP:-1}
 echo -e "\t-> Setting $MAX_PEERS as MAX_PEERS..."
 sed -i "s|#define MAX_PEERS .*|#define MAX_PEERS         $MAX_PEERS|" wireguardhsm/settings.h
 
 # ENABLE_HSM
 echo -en "\t"
-read -p "[*] Do you want to use the option ENABLE_HSM y/n? [y] " ENABLE_HSM
-ENABLE_HSM=${ENABLE_HSM:-y}
+read -p "[*] Do you want to use the option ENABLE_HSM y/n? [y] " ENABLE_HSM_TMP
+ENABLE_HSM=${ENABLE_HSM_TMP:-y}
 echo -e "\t-> Setting $ENABLE_HSM as ENABLE_HSM..."
 sed -i "s|#define ENABLE_HSM .*|#define ENABLE_HSM        \"$ENABLE_HSM\"|" wireguardhsm/settings.h
 
 # ENABLE_TIMESTAMP
 echo -en "\t"
-read -p "[*] Do you want to use the option ENABLE_TIMESTAMP y/n? [y] " ENABLE_TIMESTAMP
-ENABLE_TIMESTAMP=${ENABLE_TIMESTAMP:-y}
+read -p "[*] Do you want to use the option ENABLE_TIMESTAMP y/n? [y] " ENABLE_TIMESTAMP_TMP
+ENABLE_TIMESTAMP=${ENABLE_TIMESTAMP_TMP:-y}
 echo -e "\t-> Setting $ENABLE_TIMESTAMP as ENABLE_TIMESTAMP..."
 sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP  \"$ENABLE_HSM\"|" wireguardhsm/settings.h
 
 # ENABLE_SECUREMODE
 echo -en "\t"
-read -p "[*] Do you want to use the option ENABLE_SECUREMODE y/n? [y] " ENABLE_SECUREMODE
-ENABLE_SECUREMODE=${ENABLE_SECUREMODE:-y}
+read -p "[*] Do you want to use the option ENABLE_SECUREMODE y/n? [y] " ENABLE_SECUREMODE_TMP
+ENABLE_SECUREMODE=${ENABLE_SECUREMODE_TMP:-y}
 echo -e "\t-> Setting $ENABLE_SECUREMODE as ENABLE_SECUREMODE..."
 sed -i "s|#define ENABLE_SECUREMODE .*|#define ENABLE_SECUREMODE \"$ENABLE_SECUREMODE\"|" wireguardhsm/settings.h
 

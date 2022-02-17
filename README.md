@@ -19,7 +19,8 @@ $ sudo ./start_wg0-hsm_y-timestamp_y
 *setup* starts a script that lets you input the necessary settings or automatically sets them and checks the dependencies required. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privileges to access wireguard. It also includes the important settings in the name (if HSM or HSM_TIMESTAMP is enabled, or which interface will be started). (IMPORTANT: WiregaurdHSM only works if you have pcscd start with *sudo pcscd -d -f*. The systemctl version always lead to a segmentation fault on my computer)
 
 ## ToDo's
-- [ ] **PIN Managment:** At the moment the PIN is written in *scsh3/wireguard_damon.js*. *wireguardhsm/wireguardhsm.c* should manage the PIN, also with possible user input.
+- [X] **PIN Managment:** At the moment the PIN is written in *scsh3/wireguard_damon.js*. *wireguardhsm/config_changer.c* should manage the PIN, also with possible user input.
+- [ ] **PIN Managment:** Add option to use WireguardHSM without entering PIN with every HSM use.
 - [ ] **Program output:** For more than one peer the output of the program gets messy because one cannot tell which output belongs to which peer.
 - [ ] **Key Label Managment:** Key label is written in *scsh3/wireguard_daemon.js*. Should be more accessiable to user (over setup.sh). Similar to *Allow different keys* (User can decide which tunnel (maybe even peer) uses which key).
 - [ ] **Allow different keys:** Allow the use of RSA, ECC and AES keys. Create alternative java scripts to perform these operations and allow *wireguardhsm/wireguardhsm.c* to choose which key the tunnel (and maybe also the peer) should use.

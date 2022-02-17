@@ -6,7 +6,7 @@ This program is the attempt to include a Hardware Security Module into the [Wire
 ## Setting up the SmartCard-HSM's
 1. **Installing swissbit driver for SmartCard-HSM**: The necessary instructions are all in [SmartCard-HSM Starterkit](http://www.cardcontact.de/download/sc-hsm-starterkit.zip)
 2. **Initializing the SmartCard-HSM with a shared DKEK**: A good instruction can be found [here](https://vessokolev.blogspot.com/2019/06/smartcard-hsm-usb-token-using-smart.html). Especially step six is needed in order to create a DKEK. Make sure to import the same DKEK share to the two HSM's.
-3. **Generating, exporting and importing generated keys**: Again [this](https://vessokolev.blogspot.com/2019/06/smartcard-hsm-usb-token-using-smart.html) contains the necessary instructions to generate a key. You can then export the key by right-clicking it and selecting *Export key and certificate*. For importing you can right-click the root folder in the left tree diagramm and select import. For this you need to be logged in.
+3. **Generating, exporting and importing generated keys**: Again [this](https://vessokolev.blogspot.com/2019/06/smartcard-hsm-usb-token-using-smart.html) contains the necessary instructions to generate a key. You can then export the key by right-clicking it and selecting *Export key and certificate*. For importing you can right-click the root folder in the left tree diagramm and select import. For this you need to be logged in. (IMPORTANT: At the moment WireguardHSM only works with a RSA key with the label *RSA_KEY*. This can be easily changed by altering *scsh3/wireguard_daemon.js*)
 
 ## Building
 ```

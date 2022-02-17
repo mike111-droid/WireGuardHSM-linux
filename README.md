@@ -19,7 +19,7 @@ $ sudo ./start_wg0-hsm_y-timestamp_y
 *setup* starts a script that lets you input the necessary settings or automatically sets them and checks the dependencies required. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privileges to access wireguard. It also includes the important settings in the name (if HSM or HSM_TIMESTAMP is enabled, or which interface will be started). (IMPORTANT: WiregaurdHSM only works if you have pcscd start with *sudo pcscd -d -f*. The systemctl version always lead to a segmentation fault on my computer)
 
 ## Functionality
-The application works as a wrap-around daemon. This means Wireguard was not changed at all. The WireguardHSM connection is only managed from the outside with shell commands and the wireguard config file. Essential is the shell command *wg addconf %s <(wg-quick strip wgX* that allows to reload the config file *wgX.conf* without restarting the tunnel.  
+The application works as a wrap-around daemon. This means Wireguard was not changed at all. The WireguardHSM connection is only managed from the outside with shell commands and the wireguard config file. Essential is the shell command *wg addconf %s <(wg-quick strip wgX* that reloads the config file *wgX.conf* without restarting the tunnel.  
 
 WireguardHSM creates dynamic, changing preshared keys (PSK's) with the possibility to use a HSM in the process, and loads them into the wireguard tunnel as PSK's. The application needs to run on both communication peers, so that both have the same PSK during the handshake.
 

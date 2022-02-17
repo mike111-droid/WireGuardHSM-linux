@@ -31,6 +31,7 @@ void reload_config              (char*,    int, struct Config);
 int  get_file_length            (FILE*                       );
 int  get_longest_fileline_length(FILE*                       );
 void write_oldpsk_to_js         (char*                       );
+void write_pin_to_js            (char*                       );
 int  get_psk                    (char*,  char*,         char*);
 
 

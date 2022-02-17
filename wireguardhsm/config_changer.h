@@ -92,7 +92,7 @@ void init_psk_hsm(char *interface, char *pk) {
 	printf("Starting init_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Get PIN for HSM access */
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
@@ -129,7 +129,7 @@ void init_psk_hsm(char *interface, char *pk) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
 		write_pin_to_js("654321");
 		/* Override array with PIN to make sure it is gone */
@@ -157,7 +157,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting init_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Get PIN for HSM access */
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
@@ -194,7 +194,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
 		write_pin_to_js("654321");
 		/* Override array with PIN to make sure it is gone */
@@ -222,7 +222,7 @@ void reset_psk_hsm(char *interface, char *pk) {
 	printf("Starting reset_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Get PIN for HSM access */
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
@@ -260,7 +260,7 @@ void reset_psk_hsm(char *interface, char *pk) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 	
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
 		write_pin_to_js("654321");
 		/* Override array with PIN to make sure it is gone */
@@ -292,7 +292,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting reset_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Get PIN for HSM access */
 		printf("Enter the PIN for the HSM: \n");
 		getPassword(pin);
@@ -330,7 +330,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
-	if(ENABLE_SECUREMODE == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
 		write_pin_to_js("654321");
 		/* Override array with PIN to make sure it is gone */

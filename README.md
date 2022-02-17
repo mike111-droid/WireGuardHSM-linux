@@ -26,6 +26,7 @@ WireguardHSM creates dynamic, changing preshared keys (PSK's) with the possibili
 ### How does it work?
 
 ### How do we stay synchronized?
+The idea behind staying synchronized in this Hash-Chain depends on the handshakes. Usually a handshake is done in Wireguard with two messages: the handshake initiation message (INIT) and the handshake response message (RESP). If a initiator receives a RESP message it can be sure that the responder received the INIT message and is ready to change to the next packat encryption key (generated with the static, ephemeral and preshared key). This constitutes a successful handshake for the initatior. For the responder this is more difficult. Only the first encrypted package allows the responder to be sure of a successful handshake. Unfortuantly, WireguardHSM does not have access to this.
 
 ### How do we generate new PSK's?
 The generation of the new PSK's depends on the settings selected.

@@ -24,7 +24,7 @@ The application works as a wrap-around daemon. This means Wireguard was not chan
 WireguardHSM creates dynamic, changing preshared keys (PSK's) with the possibility to use a HSM in the process, and loads them into the wireguard tunnel as PSK's. The application needs to run on both communication peers, so that both have the same PSK during the handshake.
 
 ### How does it work?
-
+WireguardHSM works by creating a PSK at the start of the connection. Then with every sucessful handshake NEW_PSK = SHA256(OLD_PSK), similiar to the Ratchet Algorithms of Signal. As a result a CURRENT_PSK can only be used to decrypt the following PSK's. Because the hash function's characteristics, the OLD_PSK's cannot be calcualted. This obviously only works if INIT_PSK isn't static. As such the recommanded way of using WiregaurdHSM is with the option ENABLE_HSM=y and ENABLE_TIMESTAMP=y.
 
 ### How do we stay synchronized?
 The idea behind staying synchronized in this Hash-Chain depends on the handshakes. Usually a handshake is done in Wireguard with two messages: the handshake initiation message (INIT) and the handshake response message (RESP). If a initiator receives a RESP message it can be sure that the responder received the INIT message and is ready to change to the next packat encryption key (generated with the static, ephemeral and preshared key). This constitutes a successful handshake for the initatior. For the responder this is more difficult. Only the first encrypted package allows the responder to be sure of a successful handshake. Unfortuantly, WireguardHSM does not have access to this. In order to solve this problem the following behaviours have been defined.  

@@ -13,6 +13,7 @@ This program is the attempt to include a Hardware Security Module into the [Wire
 $ git clone https://github.com/mike111-droid/WireguardHSM-linux  
 $ cd WireguardHSM-linux  
 $ bash setup
+$ systemctl start pcscd
 $ sudo ./start_wg0-hsm_y-timestamp_y
 ```
 

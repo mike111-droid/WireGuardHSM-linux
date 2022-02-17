@@ -76,32 +76,35 @@ echo -en "\t"
 read -p "[*] Enter name of interface you want the daemon to monitor [wg0]: " INTERFACE
 INTERFACE=${INTERFACE:-wg0}
 echo -e "\t-> Setting $INTERFACE as INTERFACE. $INTERFACE.conf is the according config file..."
-sed -i "s|#define INTERFACE .*|#define INTERFACE        \"$INTERFACE\"|" wireguardhsm/settings.h
+sed -i "s|#define INTERFACE .*|#define INTERFACE         \"$INTERFACE\"|" wireguardhsm/settings.h
 
 # MAX_PEERS
 echo -en "\t"
 read -p "[*] Enter the number of expected/maximal peers in the interface config [1]: " MAX_PEERS
 MAX_PEERS=${MAX_PEERS:-1}
 echo -e "\t-> Setting $MAX_PEERS as MAX_PEERS..."
-sed -i "s|#define MAX_PEERS .*|#define MAX_PEERS        $MAX_PEERS|" wireguardhsm/settings.h
+sed -i "s|#define MAX_PEERS .*|#define MAX_PEERS         $MAX_PEERS|" wireguardhsm/settings.h
 
 # ENABLE_HSM
 echo -en "\t"
 read -p "[*] Do you want to use the option ENABLE_HSM y/n? [y] " ENABLE_HSM
 ENABLE_HSM=${ENABLE_HSM:-y}
 echo -e "\t-> Setting $ENABLE_HSM as ENABLE_HSM..."
-sed -i "s|#define ENABLE_HSM .*|#define ENABLE_HSM       \"$ENABLE_HSM\"|" wireguardhsm/settings.h
+sed -i "s|#define ENABLE_HSM .*|#define ENABLE_HSM        \"$ENABLE_HSM\"|" wireguardhsm/settings.h
 
 # ENABLE_TIMESTAMP
 echo -en "\t"
 read -p "[*] Do you want to use the option ENABLE_TIMESTAMP y/n? [y] " ENABLE_TIMESTAMP
-ENABLE_HSM=${ENABLE_TIMESTAMP:-y}
+ENABLE_TIMESTAMP=${ENABLE_TIMESTAMP:-y}
 echo -e "\t-> Setting $ENABLE_TIMESTAMP as ENABLE_TIMESTAMP..."
-sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP \"$ENABLE_HSM\"|" wireguardhsm/settings.h
+sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP  \"$ENABLE_HSM\"|" wireguardhsm/settings.h
 
-INTERFACE=$(cat wireguardhsm/settings.h | grep "#define INTERFACE" | grep -oP '"\K[^"]+')
-ENABLE_HSM=$(cat wireguardhsm/settings.h | grep "#define ENABLE_HSM" | grep -oP '"\K[^"]+')
-ENABLE_TIMESTAMP=$(cat wireguardhsm/settings.h | grep "#define ENABLE_TIMESTAMP" | grep -oP '"\K[^"]+')
+# ENABLE_SECUREMODE
+echo -en "\t"
+read -p "[*] Do you want to use the option ENABLE_SECUREMODE y/n? [y] " ENABLE_SECUREMODE
+ENABLE_SECUREMODE=${ENABLE_SECUREMODE:-y}
+echo -e "\t-> Setting $ENABLE_SECUREMODE as ENABLE_SECUREMODE..."
+sed -i "s|#define ENABLE_SECUREMODE .*|#define ENABLE_SECUREMODE \"$ENABLE_SECUREMODE\"|" wireguardhsm/settings.h
 
 gcc -o start_$INTERFACE-hsm_$ENABLE_HSM-timestamp_$ENABLE_TIMESTAMP wireguardhsm/wireguardhsm.c
 echo -e "[*] The setup is done. You can change everything in $PWD/wireguardhsm/settings.h and recompile, or restart setup.sh. Executable start_$INTERFACE-hsm_$ENABLE_HSM-timestamp_$ENABLE_TIMESTAMP was created."

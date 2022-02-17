@@ -31,8 +31,6 @@ void reload_config              (char*,    int, struct Config);
 int  get_file_length            (FILE*                       );
 int  get_longest_fileline_length(FILE*                       );
 void write_oldpsk_to_js         (char*                       );
-void get_ip_address             (char*, size_t,         char*);
-void escape_slash               (char*,  char*               );
 int  get_psk                    (char*,  char*,         char*);
 
 
@@ -91,8 +89,15 @@ void get_timestamp(char *timestamp) {
  */
 void init_psk_hsm(char *interface, char *pk) {
 	printf("Starting init_psk_hsm...\n");
+
+	/* Get PIN for HSM access */
+	char pin[PIN_SIZE];
+	getPassword(pin);
+
+	/* Write PIN to java script file that needs it */
+	write_pin_to_js(pin);
+
 	/* Write INIT_PSK to js for scsh3 execution */
-	// TODO: Escape oldpsk if really psk and not timestamp
 	write_oldpsk_to_js(INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
@@ -121,6 +126,14 @@ void init_psk_hsm(char *interface, char *pk) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
+	/* Remove PIN from java script file */
+	write_pin_to_js("654321");
+
+	/* Override array with PIN to make sure it is gone */
+	for(int idx = 0; idx < strlen(pin); idx++){
+		pin[idx] = '\0';
+	}
+
 	/* Load new psk to config file */
 	int ret = config_change(interface, pk, psk);
 	if(ret != 0) printf("[ERROR] config_change failed\n");
@@ -138,8 +151,15 @@ void init_psk_hsm(char *interface, char *pk) {
  */
 void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting init_psk_hsm_timestamp...\n");
+
+	/* Get PIN for HSM access */
+        char pin[PIN_SIZE];
+        getPassword(pin);
+
+        /* Write PIN to java script file that needs it */
+        write_pin_to_js(pin);
+
 	/* Write timestamp to js for scsh3 execution */
-	// TODO: Check if anything in timestamp needs to escaped (Shouldn't because it work in the test with Android peer) */
 	write_oldpsk_to_js(timestamp);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
@@ -168,6 +188,14 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
+	/* Remove PIN from java script file */
+        write_pin_to_js("654321");
+
+        /* Override array with PIN to make sure it is gone */
+        for(int idx = 0; idx < strlen(pin); idx++){
+                pin[idx] = '\0';
+        }
+
 	/* Load new psk to config file */
 	int ret = config_change(interface, pk, psk);
 	if(ret != 0) printf("[ERROR] config_change failed\n");
@@ -185,8 +213,15 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
  */
 void reset_psk_hsm(char *interface, char *pk) {
 	printf("Starting reset_psk_hsm...\n");
+
+	/* Get PIN for HSM access */
+        char pin[PIN_SIZE];
+        getPassword(pin);
+
+        /* Write PIN to java script file that needs it */
+        write_pin_to_js(pin);
+
 	/* Write INIT_PSK to js for scsh3 execution */
-	// TODO: Escape oldpsk if really psk and not timestamp
 	write_oldpsk_to_js(INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
@@ -215,6 +250,14 @@ void reset_psk_hsm(char *interface, char *pk) {
 	memcpy(psk, &line[5], strlen(line)-5);
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
+
+	/* Remove PIN from java script file */
+        write_pin_to_js("654321");
+
+        /* Override array with PIN to make sure it is gone */
+        for(int idx = 0; idx < strlen(pin); idx++){
+                pin[idx] = '\0';
+        }
 
 	/* Load new psk to config file and reload config in wireguard */
 	int ret = config_change(interface, pk, psk);
@@ -237,8 +280,15 @@ void reset_psk_hsm(char *interface, char *pk) {
  */
 void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting reset_psk_hsm_timestamp...\n");
+
+	/* Get PIN for HSM access */
+        char pin[PIN_SIZE];
+        getPassword(pin);
+
+        /* Write PIN to java script file that needs it */
+        write_pin_to_js(pin);
+
 	/* Write timestamp to js for scsh3 execution */
-	// TODO: Check if anything in timestamp needs to escaped (Shouldn't because it work in the test with Android peer) */
 	write_oldpsk_to_js(timestamp);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
@@ -267,6 +317,14 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	memcpy(psk, &line[5], strlen(line)-5);
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
+
+	/* Remove PIN from java script file */
+        write_pin_to_js("654321");
+
+        /* Override array with PIN to make sure it is gone */
+        for(int idx = 0; idx < strlen(pin); idx++){
+                pin[idx] = '\0';
+        }
 
 	/* Load new psk to config file and reload config in wireguard */
 	int ret = config_change(interface, pk, psk);
@@ -375,12 +433,9 @@ int config_change(char *interface, char *pk, char *psk) {
 	fclose(config_file);
 	if(line) free(line);
 
-	/* Escape slashes of psk because otherwise sed won't work */
-	char pskEscaped[2*strlen(psk)];
-        escape_slash(psk, pskEscaped);
-	/* Execute shell command to replace line psk_line+1 with escaped PSK */
+	/* Execute shell command to replace line psk_line+1 with psk */
 	char command[BUF_MEDIUM];
-	snprintf(command, sizeof(command), "sed -i \"%ds/.*/PresharedKey = %s/\" %s", psk_line+1, pskEscaped, filepath);
+	snprintf(command, sizeof(command), "sed -i \"%ds|.*|PresharedKey = %s|\" %s", psk_line+1, psk, filepath);
 	system(command);
 	return 0;
 }
@@ -452,42 +507,15 @@ int get_longest_fileline_length(FILE *fp) {
 /* Function to write oldpsk wireguard_daemon.js that is used for HSM access */
 void write_oldpsk_to_js(char *oldpsk) {
 	char command[BUF_MEDIUM];
-	snprintf(command, sizeof(command), "sed -i 's/var oldpsk =.*/var oldpsk = \"%s\";/g' %s/wireguard_daemon.js", oldpsk, SCSH_DIR);
+	snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon.js", oldpsk, SCSH_DIR);
 	system(command);
 }
 
-/* Function to get ip address from line */
-void get_ip_address(char *line, size_t len, char *ip) {
-	int start = len;
-	while(line[start] != '(') {
-		start--;
-	}
-	start++;
-	for(int idx = start; idx < len; idx++) {
-		ip[idx-start] = line[idx];
-	}
-	ip[len-start] = '\0';
-}
-
-/* Function to escape slash symbols because sed does not take slash */
-void escape_slash(char *string, char *string_escaped) {
-        int idx = 0;
-        int new_idx = 0;
-        char letter = string[idx];
-        while(letter != '\0') {
-                if(string[idx] == '/') {
-                        string_escaped[new_idx] = '\\';
-                        new_idx++;
-                        string_escaped[new_idx] = string[idx];
-
-                } else {
-                        string_escaped[new_idx] = string[idx];
-                }
-                idx++;
-                new_idx++;
-                letter = string[idx];
-        }
-	string_escaped[new_idx] = '\0';
+/* Function to write PIN to wireguard_daemon.js that is needed for HSM */
+void write_pin_to_js(char *pin) {
+	char command[BUF_MEDIUM];
+	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon.js", pin, SCSH_DIR);
+	system(command);
 }
 
 /* Function to get the pre-shared key of a specific peer identified by the public key */

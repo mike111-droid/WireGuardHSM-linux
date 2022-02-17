@@ -23,6 +23,7 @@
 #define BUF_BIG     10024
 #define BUF_TIMSTMP 256
 #define MSG_LEN     512
+#define PIN_SIZE    128
 
 /* Msg struct is used to interprocess communication with the message queue. */
 struct Msg {

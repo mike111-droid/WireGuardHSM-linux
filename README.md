@@ -34,11 +34,11 @@ The idea behind staying synchronized in this Hash-Chain depends on the handshake
 
 ### How do we generate new PSK's?
 The generation of the new PSK's depends on the settings selected.
-1. ENABLE_HSM==y && ENABLE_TIMESTAMP==y  
+1. *ENABLE_HSM==y && ENABLE_TIMESTAMP==y*  
 At the start, the application generates the first PSK with HSM(TIMESTAMP). The timestamp has an accuracy of an hour, and with every changing timestamp, the PSK is changed with HSM(TIMESTAMP). Furthermore, a new PSK is generated with each successful handshake with NEW_PSK = SHA256(OLD_PSK). If the connection fails because of asynchronous PSK-Chains in peers, the reset is done with HSM(TIMESTAMP).
-2. ENABLE_HSM==y && ENABLE_TIMESTAMP==n  
+2. *ENABLE_HSM==y && ENABLE_TIMESTAMP==n*  
 At the start, the application generates the first PSK with HSM(INIT_VALUE). Then it generates the NEW_PSK = SHA256(OLD_PSK). If the connection fails because of asynchronous PSK-Chains in peers, the reset is done with HSM(INIT_VALUE).
-3. ENABLE_HSM==n && ENABLE_TIMESTAMP==n  
+3. *ENABLE_HSM==n && ENABLE_TIMESTAMP==n*  
 At the start, the application initializes the first PSK with RESET_PSK. Then it generate the NEW_PSK = SHA256(OLD_PSK). If the connection fails because of asynchronous PSK-Chains in peers, the reset is done with RESET_PSK.
 
 

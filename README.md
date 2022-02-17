@@ -13,11 +13,10 @@ This program is the attempt to include a Hardware Security Module into the [Wire
 $ git clone https://github.com/mike111-droid/WireguardHSM-linux  
 $ cd WireguardHSM-linux  
 $ bash setup
-$ systemctl start pcscd
 $ sudo ./start_wg0-hsm_y-timestamp_y
 ```
 
-*setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privilages in order to access wireguard. It also includes the important settings in the name such as if HSM or HSM_TIMESTAMP is enabled, or which interface will be started.
+*setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privilages in order to access wireguard. It also includes the important settings in the name such as if HSM or HSM_TIMESTAMP is enabled, or which interface will be started. (IMPORTANT: WiregaurdHSM only works if you have pcscd start with *sudo pcscd -d -f*. The systemctl version always lead to a segmentation fault on my computer)
 
 ## Functionality
 The application works as a wrap-around daemon. This means Wireguard was not changed at all. The WireguardHSM connection is only managed from the outside with shell commands and the wireguard config file. Essential is the shell command *wg addconf %s <(wg-quick strip wgX* that allows to reload the config file *wgX.conf* without restarting the tunnel.  

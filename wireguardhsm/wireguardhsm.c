@@ -77,9 +77,6 @@ int main() {
 	char sending_resp_handshake_line[len_sending_resp_handshake_line];
 	snprintf(sending_resp_handshake_line, len_sending_resp_handshake_line, "wireguard: %s: Sending handshake response to peer", INTERFACE);
 
-	// enable dynamic debug
-	system("echo 'module wireguard +p' | sudo tee /sys/kernel/debug/dynamic_debug/control");
-
 	/* Create string commands to start wireguard interface */
 	char up_interface[BUF_MEDIUM];
         snprintf(up_interface, sizeof(up_interface), "sudo wg-quick up %s", INTERFACE);
@@ -134,6 +131,10 @@ int main() {
 
 	/* Update config */
 	parseConfig(&config, INTERFACE);
+	
+	/* enable dynamic debug */
+        system("echo 'module wireguard +p' | sudo tee /sys/kernel/debug/dynamic_debug/control");
+	
 	/* Start wireguard */
 	system(up_interface);
 

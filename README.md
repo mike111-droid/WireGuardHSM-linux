@@ -21,7 +21,7 @@ $ sudo ./start_wg0-hsm_y-timestamp_y
 ## ToDo's
 1. **PIN Managment:** At the moment the PIN is written in *scsh3/wireguard_damon.js*. *wireguardhsm/wireguardhsm.c* should manage the PIN, also with possible user input.
 2. **Program output:** For more than one peer the output of the program gets messy because one cannot tell which output belongs to which peer.
-3. **Key Label Managment:** Key label is written in *scsh3/wireguard_daemon.js*. Should be more accessiable to user (over setup.sh).
+3. **Key Label Managment:** Key label is written in *scsh3/wireguard_daemon.js*. Should be more accessiable to user (over setup.sh). Similar to *Allow different keys* (User can decide which tunnel (maybe even peer) uses which key).
 4. **Allow different keys:** Allow the use of RSA, ECC and AES keys. Create alternative java scripts to perform these operations and allow *wireguardhsm/wireguardhsm.c* to choose which key the tunnel (and maybe also the peer) should use.
 5. **pcscd problem:** WireguardHSM only seems to be working if *pcscd* is started with *sudo pcscd -d -f* and not with systemctl.
 

@@ -66,7 +66,7 @@ echo -e "\t-> Setting $SCSH3_DIR as SCSH3_DIR..."
 sed -i "s|#define SCSH3_DIR .*|#define SCSH3_DIR         \"$SCSH3_DIR\"|" wireguardhsm/settings.h
 echo -e "\t-> Copying wireguard_daemon.js and wireguard_daemon.ex to $SCSH3_DIR..."
 cp scsh3/wireguard_daemon.js $SCSH3_DIR
-cp scsh3/wireguard_daemon.ex $SCSH3_DIR
+cp scsh3/wireguard_daemon.expect $SCSH3_DIR
 
 # INTERFACE
 echo -en "\t"

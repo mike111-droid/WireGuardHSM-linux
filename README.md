@@ -16,7 +16,7 @@ $ bash setup
 $ sudo ./start_wg0-hsm_y-timestamp_y
 ```
 
-*setup* starts a script that lets you input the necessary settings or automatically sets them and checks the dependencies required. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privileges to access wireguard. It also includes the important settings in the name (if HSM or HSM_TIMESTAMP is enabled, or which interface will be started). (IMPORTANT: WiregaurdHSM only works if you have pcscd start with *sudo pcscd -d -f*. The systemctl version always lead to a segmentation fault on my computer)
+*setup* starts a script that lets you input the necessary settings or automatically sets them and checks the dependencies required. *recompile* allows to recompile with the current settings. *start_wg0-hsm_y-timestamp_y* is the executable that needs to execute with root privileges to access wireguard. It also includes the important settings in the name (if HSM or HSM_TIMESTAMP is enabled, or which interface will be started). (IMPORTANT: WiregaurdHSM only works if you have pcscd start with "*sudo pcscd -d -f*". The systemctl version always lead to a segmentation fault on my computer)
 
 ## ToDo's
 - [X] **PIN Managment:** At the moment the PIN is written in *scsh3/wireguard_damon.js*. *wireguardhsm/config_changer.c* should manage the PIN, also with possible user input.

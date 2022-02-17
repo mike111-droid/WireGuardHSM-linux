@@ -97,7 +97,7 @@ echo -en "\t"
 read -p "[*] Do you want to use the option ENABLE_TIMESTAMP y/n? [y] " ENABLE_TIMESTAMP_TMP
 ENABLE_TIMESTAMP=${ENABLE_TIMESTAMP_TMP:-y}
 echo -e "\t-> Setting $ENABLE_TIMESTAMP as ENABLE_TIMESTAMP..."
-sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP  \"$ENABLE_HSM\"|" wireguardhsm/settings.h
+sed -i "s|#define ENABLE_TIMESTAMP .*|#define ENABLE_TIMESTAMP  \"$ENABLE_TIMESTAMP\"|" wireguardhsm/settings.h
 
 # ENABLE_SECUREMODE
 echo -en "\t"

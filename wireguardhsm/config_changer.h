@@ -11,12 +11,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <termios.h>
 #include <string.h>
 #include <time.h>
 #include "types.h"
 #include "settings.h"
 #include "parser.h"
 
+void getPassword                (char*                       );
 void get_timestamp              (char*                       );
 void init_psk_hsm               (char*,  char*               );
 void init_psk_hsm_timestamp     (char*,  char*,         char*);
@@ -32,6 +34,38 @@ void write_oldpsk_to_js         (char*                       );
 void get_ip_address             (char*, size_t,         char*);
 void escape_slash               (char*,  char*               );
 int  get_psk                    (char*,  char*,         char*);
+
+
+/*
+ * Function to get Password from user input without displaying the password on console.
+ *
+ * @para password: pointer to char array with size PIN_SIZE
+ */
+void getPassword(char password[])
+{
+    static struct termios oldt, newt;
+    int i = 0;
+    int c;
+
+    /*saving the old settings of STDIN_FILENO and copy settings for resetting*/
+    tcgetattr( STDIN_FILENO, &oldt);
+    newt = oldt;
+
+    /*setting the approriate bit in the termios struct*/
+    newt.c_lflag &= ~(ECHO);
+
+    /*setting the new bits*/
+    tcsetattr( STDIN_FILENO, TCSANOW, &newt);
+
+    /*reading the password from the console*/
+    while ((c = getchar())!= '\n' && c != EOF && i < PIN_SIZE){
+        password[i++] = c;
+    }
+    password[i] = '\0';
+
+    /*resetting our old STDIN_FILENO*/
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
+}
 
 
 /*

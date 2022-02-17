@@ -91,14 +91,15 @@ void get_timestamp(char *timestamp) {
 void init_psk_hsm(char *interface, char *pk) {
 	printf("Starting init_psk_hsm...\n");
 
-	/* Get PIN for HSM access */
-	char pin[PIN_SIZE];
-	printf("Enter the PIN for the HSM: \n");
-	getPassword(pin);
-
-	/* Write PIN to java script file that needs it */
-	write_pin_to_js(pin);
-
+	if(ENABLE_SECUREMODE == "y") {
+		/* Get PIN for HSM access */
+		char pin[PIN_SIZE];
+		printf("Enter the PIN for the HSM: \n");
+		getPassword(pin);
+		/* Write PIN to java script file that needs it */
+		write_pin_to_js(pin);
+	}
+	
 	/* Write INIT_PSK to js for scsh3 execution */
 	write_oldpsk_to_js(INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
@@ -128,12 +129,13 @@ void init_psk_hsm(char *interface, char *pk) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
-	/* Remove PIN from java script file */
-	write_pin_to_js("654321");
-
-	/* Override array with PIN to make sure it is gone */
-	for(int idx = 0; idx < strlen(pin); idx++){
-		pin[idx] = '\0';
+	if(ENABLE_SECUREMODE == "y") {
+		/* Remove PIN from java script file */
+		write_pin_to_js("654321");
+		/* Override array with PIN to make sure it is gone */
+		for(int idx = 0; idx < strlen(pin); idx++){
+			pin[idx] = '\0';
+		}
 	}
 
 	/* Load new psk to config file */
@@ -154,13 +156,14 @@ void init_psk_hsm(char *interface, char *pk) {
 void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting init_psk_hsm_timestamp...\n");
 
-	/* Get PIN for HSM access */
-        char pin[PIN_SIZE];
-	printf("Enter the PIN for the HSM: \n");
-        getPassword(pin);
-
-        /* Write PIN to java script file that needs it */
-        write_pin_to_js(pin);
+	if(ENABLE_SECUREMODE == "y") {
+		/* Get PIN for HSM access */
+		char pin[PIN_SIZE];
+		printf("Enter the PIN for the HSM: \n");
+		getPassword(pin);
+		/* Write PIN to java script file that needs it */
+		write_pin_to_js(pin);
+	}
 
 	/* Write timestamp to js for scsh3 execution */
 	write_oldpsk_to_js(timestamp);
@@ -191,13 +194,14 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
-	/* Remove PIN from java script file */
-        write_pin_to_js("654321");
-
-        /* Override array with PIN to make sure it is gone */
-        for(int idx = 0; idx < strlen(pin); idx++){
-                pin[idx] = '\0';
-        }
+	if(ENABLE_SECUREMODE == "y") {
+		/* Remove PIN from java script file */
+		write_pin_to_js("654321");
+		/* Override array with PIN to make sure it is gone */
+		for(int idx = 0; idx < strlen(pin); idx++){
+			pin[idx] = '\0';
+		}
+	}
 
 	/* Load new psk to config file */
 	int ret = config_change(interface, pk, psk);
@@ -217,13 +221,14 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 void reset_psk_hsm(char *interface, char *pk) {
 	printf("Starting reset_psk_hsm...\n");
 
-	/* Get PIN for HSM access */
-        char pin[PIN_SIZE];
-	printf("Enter the PIN for the HSM: \n");
-        getPassword(pin);
-
-        /* Write PIN to java script file that needs it */
-        write_pin_to_js(pin);
+	if(ENABLE_SECUREMODE == "y") {
+		/* Get PIN for HSM access */
+		char pin[PIN_SIZE];
+		printf("Enter the PIN for the HSM: \n");
+		getPassword(pin);
+		/* Write PIN to java script file that needs it */
+		write_pin_to_js(pin);
+	}
 
 	/* Write INIT_PSK to js for scsh3 execution */
 	write_oldpsk_to_js(INIT_PSK);
@@ -254,14 +259,15 @@ void reset_psk_hsm(char *interface, char *pk) {
 	memcpy(psk, &line[5], strlen(line)-5);
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
-
-	/* Remove PIN from java script file */
-        write_pin_to_js("654321");
-
-        /* Override array with PIN to make sure it is gone */
-        for(int idx = 0; idx < strlen(pin); idx++){
-                pin[idx] = '\0';
-        }
+	
+	if(ENABLE_SECUREMODE == "y") {
+		/* Remove PIN from java script file */
+		write_pin_to_js("654321");
+		/* Override array with PIN to make sure it is gone */
+		for(int idx = 0; idx < strlen(pin); idx++){
+			pin[idx] = '\0';
+		}
+	}
 
 	/* Load new psk to config file and reload config in wireguard */
 	int ret = config_change(interface, pk, psk);
@@ -285,13 +291,14 @@ void reset_psk_hsm(char *interface, char *pk) {
 void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	printf("Starting reset_psk_hsm_timestamp...\n");
 
-	/* Get PIN for HSM access */
-        char pin[PIN_SIZE];
-	printf("Enter the PIN for the HSM: \n");
-        getPassword(pin);
-
-        /* Write PIN to java script file that needs it */
-        write_pin_to_js(pin);
+	if(ENABLE_SECUREMODE == "y") {
+		/* Get PIN for HSM access */
+		char pin[PIN_SIZE];
+		printf("Enter the PIN for the HSM: \n");
+		getPassword(pin);
+		/* Write PIN to java script file that needs it */
+		write_pin_to_js(pin);
+	}
 
 	/* Write timestamp to js for scsh3 execution */
 	write_oldpsk_to_js(timestamp);
@@ -323,13 +330,14 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	/* Remove new line */
 	psk[strlen(psk)-1] = '\0';
 
-	/* Remove PIN from java script file */
-        write_pin_to_js("654321");
-
-        /* Override array with PIN to make sure it is gone */
-        for(int idx = 0; idx < strlen(pin); idx++){
-                pin[idx] = '\0';
-        }
+	if(ENABLE_SECUREMODE == "y") {
+		/* Remove PIN from java script file */
+		write_pin_to_js("654321");
+		/* Override array with PIN to make sure it is gone */
+		for(int idx = 0; idx < strlen(pin); idx++){
+			pin[idx] = '\0';
+		}
+	}
 
 	/* Load new psk to config file and reload config in wireguard */
 	int ret = config_change(interface, pk, psk);

@@ -19,4 +19,12 @@ $ sudo ./start
 *setup* starts a script that lets you input the necessary settings or that automatically sets them, and checks the necessary dependencies. *recompile* allows to recompile with the current settings. *start* is the executable that needs to execute with root privilages in order to access wireguard.
 
 ## Functionality
-The application works as a wrap-around daemon. This means Wireguard was not changed at all. The WireguardHSM connection is only managed from the outside with shell commands and the wireguard config file. Essential is the shell command *wg addconf %s <(wg-quick strip wgX* that allows to reload the config file *wgX.conf*.
+The application works as a wrap-around daemon. This means Wireguard was not changed at all. The WireguardHSM connection is only managed from the outside with shell commands and the wireguard config file. Essential is the shell command *wg addconf %s <(wg-quick strip wgX* that allows to reload the config file *wgX.conf* without restarting the tunnel.  
+
+WireguardHSM creates dynamic preshared keys (PSK's) with the possibility to use a HSM in the process and loads them into the wireguard tunnel.
+
+### How does it work?
+
+### How do we stay synchronized?
+
+### How do we generate new PSK's?

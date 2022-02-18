@@ -219,12 +219,12 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
  * @para pk:        public key to identify peer
  */
 void reset_psk_hsm(char *interface, char *pk) {
-	printf("Starting reset_psk_hsm...\n");
+	printf("\tStarting reset_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
 	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Get PIN for HSM access */
-		printf("Enter the PIN for the HSM: \n");
+		printf("\tEnter the PIN for the HSM: \n");
 		getPassword(pin);
 		/* Write PIN to java script file that needs it */
 		write_pin_to_js(pin);
@@ -276,9 +276,9 @@ void reset_psk_hsm(char *interface, char *pk) {
 	char command2[BUF_MEDIUM];
 	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
 	system(command2);
-	printf("PSK was reseted\n");
-	printf("\tnew psk: %s\n", psk);
-	printf("\tprocess: %d\n", getpid());
+	printf("\tPSK was reseted\n");
+	printf("\t\tnew psk: %s\n", psk);
+	printf("\t\tprocess: %d\n", getpid());
 }
 
 /*
@@ -289,12 +289,12 @@ void reset_psk_hsm(char *interface, char *pk) {
  * @para timestamp: string of timestamp
  */
 void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
-	printf("Starting reset_psk_hsm_timestamp...\n");
+	printf("\tStarting reset_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
 	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Get PIN for HSM access */
-		printf("Enter the PIN for the HSM: \n");
+		printf("\tEnter the PIN for the HSM: \n");
 		getPassword(pin);
 		/* Write PIN to java script file that needs it */
 		write_pin_to_js(pin);
@@ -346,9 +346,9 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	char command2[BUF_MEDIUM];
 	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
 	system(command2);
-	printf("PSK was reseted\n");
-	printf("\tnew psk: %s\n", psk);
-	printf("\tprocess: %d\n", getpid());
+	printf("\tPSK was reseted\n");
+	printf("\t\tnew psk: %s\n", psk);
+	printf("\t\tprocess: %d\n", getpid());
 }
 
 /*
@@ -372,14 +372,14 @@ void init_psk(char *interface, char *pk) {
  * @para pk:        public key to identify peer
  */
 void reset_psk(char *interface, char *pk) {
-	printf("Starting reset_psk...\n");
+	printf("\tStarting reset_psk...\n");
 	int ret = config_change(interface, pk, RESET_PSK);
 	if(ret != 0) printf("[ERROR] config_change failed\n");
 	char command[BUF_MEDIUM];
 	snprintf(command, sizeof(command), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
 	system(command);
-	printf("PSK was reseted\n");
-	printf("\tnew psk: %s\n", RESET_PSK);
+	printf("\tPSK was reseted\n");
+	printf("\t\tnew psk: %s\n", RESET_PSK);
 }
 
 /*

@@ -55,18 +55,22 @@ struct Interface {
 	unsigned int listenPort;
 };
 
+/* Enum of possible key types */
+enum KeyTypes { RSA, ECC, AES };
+
 /* Peer struct is used to save important peer data from config file and for overall peer depandant infos of daemon. */
 struct Peer {
-	char         pubKey[128];
-	char         psk[128];
-	char         endpoint[48];
-	unsigned int endpointPort;
-	int          role;
-	clock_t      pskReload;
-	int          initHandshakeCounter;
-	bool         reloaded;
-	bool         connectionStarted;
-
+	char          pubKey[128];
+	char          psk[128];
+	char          endpoint[48];
+	unsigned int  endpointPort;
+	int           role;
+	clock_t       pskReload;
+	int           initHandshakeCounter;
+	bool          reloaded;
+	bool          connectionStarted;
+	enum KeyTypes keyTypes;
+	char          keyLabel[128];
 };
 
 /* Config struct is used to save important data from config file and other important data for daemon. */

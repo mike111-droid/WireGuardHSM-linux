@@ -488,7 +488,7 @@ void reload_config(char *interface, int peer, struct Config config) {
 	if(ret != 0) printf("[ERROR] config_change failed\n");
 	/* Excute shell command to reload config for wireguard */
         system("sudo bash -c \"wg addconf wg0 <(wg-quick strip wg0)\"");
-	printf("[%s] Reloaded psk with %s from old %s\n", config.peers[peer].pubKey, line, config.peers[peer].psk);
+	printf("[PEER_%d] Reloaded psk with %s from old %s\n", peer+1, line, config.peers[peer].psk);
 }
 
 

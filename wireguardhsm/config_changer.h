@@ -32,7 +32,6 @@ int  get_file_length            (FILE*                       );
 int  get_longest_fileline_length(FILE*                       );
 void write_oldpsk_to_js         (char*                       );
 void write_pin_to_js            (char*                       );
-int  get_psk                    (char*,  char*,         char*);
 
 
 /*
@@ -529,49 +528,6 @@ void write_pin_to_js(char *pin) {
 	char command[BUF_MEDIUM];
 	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon.js", pin, SCSH_DIR);
 	system(command);
-}
-
-/* Function to get the pre-shared key of a specific peer identified by the public key */
-int get_psk(char *interface, char *pk, char *psk) {
-	/* Open wireguard config file */
-        char filepath[128];
-        snprintf(filepath, sizeof(filepath), "%s/%s.conf", WIREGUARD_DIR, interface);
-        FILE *config_file;
-        config_file = fopen(filepath, "r");
-        if(config_file == NULL)
-        {
-                printf("Error: Couldn't open file %s\n", filepath);
-                return 1;
-        }
-
-        /* construct PK line that needs to be search for */
-        char pk_line[BUF_MEDIUM];
-        snprintf(pk_line, sizeof(pk_line), "PublicKey = %s", pk);
-
-	/* Read file into string array */
-        char *line = NULL;
-        size_t len = 0;
-        ssize_t read;
-	bool right_peer_found = false; int idx = 0;
-	while((read = getline(&line, &len, config_file)) != -1) {
-		if(line[0] != '#') {
-                        if(strstr(line, pk_line) != NULL) {
-                                right_peer_found = true;
-                        }
-                        if(strstr(line, "[Peer]") != NULL) {
-                                right_peer_found = false;
-                        }
-                        if(right_peer_found) {
-                                if(strstr(line, "PresharedKey") != NULL) {
-					break;
-                                }
-                        }
-                }
-	}
-
-	strncpy(psk, line, strlen(line));
-	fclose(config_file);
-	free(line);
 }
 /* -------------------------------------- end helper functions ---------------------------------------------*/
 

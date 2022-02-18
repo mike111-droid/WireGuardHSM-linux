@@ -37,4 +37,10 @@
 /* Macro defines if the PIN has to be inputed by user with each HSM access */
 #define ENABLE_SECUREMODE "y"
 
+/* Possible KEY_TYPE are RSA, ECC, AES */
+#define KEY_TYPE          "RSA"
+
+/* Label that is used to identify the key on the HSM (is used in wireguard_daemon.js) */
+#define KEY_LABEL         "RSA_KEY"
+
 #endif // SETTINGS_H

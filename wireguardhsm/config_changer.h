@@ -489,7 +489,6 @@ void reload_config(char *interface, int peer, struct Config config) {
 }
 
 
-// TODO: Better implementation of helper functions (less sticks and stones)
 /* ------------------------------------ begin helper functions ---------------------------------------------*/
 /* Function to write oldpsk wireguard_daemon.js that is used for HSM access */
 void write_oldpsk_to_js(char *oldpsk) {

@@ -486,7 +486,7 @@ void reload_config(int peer, struct Config config) {
 
 	/* Remove new line */
         line[strlen(line)-1] = '\0';
-        int ret = config_change(INTERFACE, config.peers[peer].pubKey, line);
+        int ret = config_change(peer, config, line);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	/* Excute shell command to reload config for wireguard */
         system("sudo bash -c \"wg addconf wg0 <(wg-quick strip wg0)\"");

@@ -26,7 +26,7 @@ void reset_psk_hsm              (  int, struct Config       );
 void reset_psk_hsm_timestamp    (  int, struct Config, char*);
 void init_psk                   (  int, struct Config       );
 void reset_psk                  (  int, struct Config       );
-int  config_change              (  int, struct Config, char*);
+int  config_change              (char*, struct Config, char*);
 void reload_config              (  int, struct Config       );
 void write_oldpsk_to_js         (char*                      );
 void write_pin_to_js            (char*                      );

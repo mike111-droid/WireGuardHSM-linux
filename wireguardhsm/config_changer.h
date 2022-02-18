@@ -110,7 +110,7 @@ void init_psk_hsm(char *interface, char *pk) {
         /* Open the command for reading. */
         fp = popen(command1, "r");
         if (fp == NULL) {
-                printf("Failed to run command\n" );
+                printf( RED "[ERROR] Failed to run command\n" RESET);
                 exit(EXIT_FAILURE);
         }
         /* Read the output a line at a time - output it. */
@@ -140,7 +140,7 @@ void init_psk_hsm(char *interface, char *pk) {
 
 	/* Load new psk to config file */
 	int ret = config_change(interface, pk, psk);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	printf("PSK was init\n");
 	printf("\tnew psk: %s\n", psk);
 	printf("\tprocess: %d\n", getpid());
@@ -205,7 +205,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 
 	/* Load new psk to config file */
 	int ret = config_change(interface, pk, psk);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	printf("PSK was init\n");
 	printf("\tnew psk: %s\n", psk);
 	printf("\ttimestamp: %s\n", timestamp);
@@ -240,7 +240,7 @@ void reset_psk_hsm(char *interface, char *pk) {
         /* Open the command for reading. */
         fp = popen(command1, "r");
         if (fp == NULL) {
-                printf("Failed to run command\n" );
+                printf( RED "[ERROR] Failed to run command\n" RESET);
                 exit(EXIT_FAILURE);
         }
         /* Read the output a line at a time - output it. */
@@ -271,7 +271,7 @@ void reset_psk_hsm(char *interface, char *pk) {
 
 	/* Load new psk to config file and reload config in wireguard */
 	int ret = config_change(interface, pk, psk);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	/* Reload config file in wireguard */
 	char command2[BUF_MEDIUM];
 	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
@@ -310,7 +310,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
         /* Open the command for reading. */
         fp = popen(command1, "r");
         if (fp == NULL) {
-                printf("Failed to run command\n" );
+                printf( RED "[ERROR] Failed to run command\n" RESET);
                 exit(EXIT_FAILURE);
         }
         /* Read the output a line at a time - output it. */
@@ -341,7 +341,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 
 	/* Load new psk to config file and reload config in wireguard */
 	int ret = config_change(interface, pk, psk);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	/* Reload config file in wireguard */
 	char command2[BUF_MEDIUM];
 	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
@@ -360,7 +360,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 void init_psk(char *interface, char *pk) {
 	printf("Starting init_psk...\n");
         int ret = config_change(interface, pk, RESET_PSK);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	printf("PSK was init\n");
         printf("\tnew psk: %s\n", RESET_PSK);
 }
@@ -374,7 +374,7 @@ void init_psk(char *interface, char *pk) {
 void reset_psk(char *interface, char *pk) {
 	printf("\tStarting reset_psk...\n");
 	int ret = config_change(interface, pk, RESET_PSK);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	char command[BUF_MEDIUM];
 	snprintf(command, sizeof(command), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
 	system(command);
@@ -397,7 +397,7 @@ int config_change(char *interface, char *pk, char *psk) {
 	config_file = fopen(filepath, "r");
 	if(config_file == NULL)
 	{
-		printf("Error: Couldn't open file %s\n", filepath);
+		printf( RED "[ERROR] Couldn't open file %s\n" RESET, filepath);
 		return 1;
 	}
 
@@ -426,7 +426,7 @@ int config_change(char *interface, char *pk, char *psk) {
 				if(strstr(line, "PresharedKey") != NULL) {
 					/* Check if already PSK found */
 					if(psk_line != -1) {
-						printf("Error: At least two possible PresharedKeys for one peer have been found.\n");
+						printf( RED "[ERROR] At least two possible PresharedKeys for one peer have been found.\n" RESET );
 						return 1;
 					}else{
 						psk_line = idx;
@@ -440,7 +440,7 @@ int config_change(char *interface, char *pk, char *psk) {
 	}
 
 	if(psk_line == -1) {
-		printf("Error: The psk_line is -1. This means no PresharedKey was found for given public key %s.\n", pk);
+		printf( RED "[ERROR] The psk_line is -1. This means no PresharedKey was found for given public key %s.\n" RESET, pk);
 		return 1;
 	}
 	fclose(config_file);
@@ -461,7 +461,7 @@ int config_change(char *interface, char *pk, char *psk) {
  * @para pk:        public key of peer that needs to be reloaded
  */
 void reload_config(char *interface, int peer, struct Config config) {
-        printf("[PEER_%d] Received signal to reload config file with new PSK (no HSM)...\n", peer+1);
+        printf( GREEN "[PEER_%d]" RESET " Received signal to reload config file with new PSK (no HSM)...\n", peer+1);
 	/* Reload PSK with old PSK hashed with sha256sum */
 	char command[BUF_MEDIUM];
         snprintf(command, sizeof(command), "echo \"%s\" | tr -d \"\n\r\" | sha256sum | cut -d ' ' -f 1 | xxd -r -p | base64", config.peers[peer].psk);
@@ -470,12 +470,12 @@ void reload_config(char *interface, int peer, struct Config config) {
         /* Open the command for reading. */
         fp = popen(command, "r");
         if (fp == NULL) {
-                printf("Failed to run command\n" );
+                printf( RED "[ERROR] Failed to run command\n" RESET );
                 exit(1);
         }
         /* Read the output. Should only be one line. Nonetheless read all until last line */
         if(fgets(line, sizeof(line), fp) == NULL) {
-		printf("[reload_config] Error occured during reading output of command for calucalting new PSK.\n");
+		printf( RED "[reload_config] Error occured during reading output of command for calucalting new PSK.\n" RESET );
 		pclose(fp);
 		return;
 	}
@@ -485,10 +485,10 @@ void reload_config(char *interface, int peer, struct Config config) {
 	/* Remove new line */
         line[strlen(line)-1] = '\0';
         int ret = config_change(interface, config.peers[peer].pubKey, line);
-	if(ret != 0) printf("[ERROR] config_change failed\n");
+	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	/* Excute shell command to reload config for wireguard */
         system("sudo bash -c \"wg addconf wg0 <(wg-quick strip wg0)\"");
-	printf("[PEER_%d] Reloaded psk with %s from old %s\n", peer+1, line, config.peers[peer].psk);
+	printf( GREEN "[PEER_%d]" RESET " Reloaded psk with %s from old %s\n", peer+1, line, config.peers[peer].psk);
 }
 
 

@@ -138,7 +138,7 @@ void init_psk_hsm(int peer, struct Config config) {
 	}
 
 	/* Load new psk to config file */
-	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
+	int ret = config_change(INTERFACE, config, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	printf("PSK was init\n");
 	printf("\tnew psk: %s\n", psk);
@@ -204,7 +204,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	}
 
 	/* Load new psk to config file */
-	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
+	int ret = config_change(INTERFACE, config, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	printf("PSK was init\n");
 	printf("\tnew psk: %s\n", psk);
@@ -271,7 +271,7 @@ void reset_psk_hsm(int peer, struct Config config) {
 	}
 
 	/* Load new psk to config file and reload config in wireguard */
-	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
+	int ret = config_change(INTERFACE, config, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	/* Reload config file in wireguard */
 	char command2[BUF_MEDIUM];
@@ -342,7 +342,7 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	}
 
 	/* Load new psk to config file and reload config in wireguard */
-	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
+	int ret = config_change(INTERFACE, config, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	/* Reload config file in wireguard */
 	char command2[BUF_MEDIUM];
@@ -361,7 +361,7 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
  */
 void init_psk(int peer, struct Config config) {
 	printf("Starting init_psk...\n");
-        int ret = config_change(INTERFACE, config.peers[peer].pubKey, RESET_PSK);
+        int ret = config_change(INTERFACE, config, RESET_PSK);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	printf("PSK was init\n");
         printf("\tnew psk: %s\n", RESET_PSK);
@@ -375,7 +375,7 @@ void init_psk(int peer, struct Config config) {
  */
 void reset_psk(int peer, struct Config config) {
 	printf("\tStarting reset_psk...\n");
-	int ret = config_change(INTERFACE, config.peers[peer].pubKey, RESET_PSK);
+	int ret = config_change(INTERFACE, config, RESET_PSK);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	char command[BUF_MEDIUM];
 	snprintf(command, sizeof(command), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", INTERFACE, INTERFACE);

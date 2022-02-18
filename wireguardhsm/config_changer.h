@@ -18,19 +18,19 @@
 #include "settings.h"
 #include "parser.h"
 
-void getPassword                (char*                       );
-void get_timestamp              (char*                       );
-void init_psk_hsm               (char*,  char*               );
-void init_psk_hsm_timestamp     (char*,  char*,         char*);
-void reset_psk_hsm              (char*,  char*               );
-void reset_psk_hsm_timestamp    (char*,  char*,         char*);
-void init_psk                   (char*,  char*               );
-void reset_psk                  (char*,  char*               );
-int  config_change              (char*,  char*,         char*);
-void reload_config              (char*,    int, struct Config);
-void write_oldpsk_to_js         (char*                       );
-void write_pin_to_js            (char*                       );
-void write_keyLabel_to_js       (char*                       );
+void getPassword                (char*                      );
+void get_timestamp              (char*                      );
+void init_psk_hsm               (  int, struct Config       );
+void init_psk_hsm_timestamp     (  int, struct Config, char*);
+void reset_psk_hsm              (  int, struct Config       );
+void reset_psk_hsm_timestamp    (  int, struct Config, char*);
+void init_psk                   (  int, struct Config       );
+void reset_psk                  (  int, struct Config       );
+int  config_change              (  int, struct Config, char*);
+void reload_config              (  int, struct Config       );
+void write_oldpsk_to_js         (char*                      );
+void write_pin_to_js            (char*                      );
+void write_keyLabel_to_js       (char*                      );
 
 /*
  * Credit: This is from https://stackoverflow.com/a/1786733.
@@ -83,10 +83,10 @@ void get_timestamp(char *timestamp) {
 /*
  * Function to init the PSK with HSM(INIT_PSK) without reload config wireguard command.
  *
- * @para interface: string of interface to identify correct config file
- * @para pk:        public key to identify peer
+ * @para peer:   number that identifies peer in config struct
+ * @para config: config struct with the necessary data for this tunnel
  */
-void init_psk_hsm(char *interface, char *pk) {
+void init_psk_hsm(int peer, struct Config config) {
 	printf("Starting init_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
@@ -138,7 +138,7 @@ void init_psk_hsm(char *interface, char *pk) {
 	}
 
 	/* Load new psk to config file */
-	int ret = config_change(interface, pk, psk);
+	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	printf("PSK was init\n");
 	printf("\tnew psk: %s\n", psk);
@@ -148,11 +148,11 @@ void init_psk_hsm(char *interface, char *pk) {
 /*
  * Function to init the PSK with HSM(TIMESTAMP) without reload config wireguard command.
  *
- * @para interface: string of interface to identify correct config file
- * @para pk:        public key to identify peer
+ * @para peer:      number to identify the peer in config struct
+ * @para config:    struct with all necessary data for tunnel
  * @para timestamp: string of timestamp
  */
-void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
+void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	printf("Starting init_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
@@ -204,7 +204,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	}
 
 	/* Load new psk to config file */
-	int ret = config_change(interface, pk, psk);
+	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	printf("PSK was init\n");
 	printf("\tnew psk: %s\n", psk);
@@ -215,10 +215,10 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 /*
  * Function to reset the PSK with HSM(INIT_PSK).
  *
- * @para interface: string of interface to identify correct config file
- * @para pk:        public key to identify peer
+ * @para peer:   number to identify peer in config
+ * @para config: config struct with all important information for tunnel
  */
-void reset_psk_hsm(char *interface, char *pk) {
+void reset_psk_hsm(int peer, struct Config config) {
 	printf("\tStarting reset_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
@@ -271,11 +271,11 @@ void reset_psk_hsm(char *interface, char *pk) {
 	}
 
 	/* Load new psk to config file and reload config in wireguard */
-	int ret = config_change(interface, pk, psk);
+	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	/* Reload config file in wireguard */
 	char command2[BUF_MEDIUM];
-	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
+	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", INTERFACE, INTERFACE);
 	system(command2);
 	printf("\tPSK was reseted\n");
 	printf("\t\tnew psk: %s\n", psk);
@@ -285,11 +285,11 @@ void reset_psk_hsm(char *interface, char *pk) {
 /*
  * Function to reset the PSK with HSM(TIMESTAMP).
  *
- * @para interface: string of interface to identify correct config file
- * @para pk:        public key to identify peer
+ * @para peer:      number to identify peer in config struct
+ * @para config:    config struct with all important information for tunnel
  * @para timestamp: string of timestamp
  */
-void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
+void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	printf("\tStarting reset_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
@@ -342,11 +342,11 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 	}
 
 	/* Load new psk to config file and reload config in wireguard */
-	int ret = config_change(interface, pk, psk);
+	int ret = config_change(INTERFACE, config.peers[peer].pubKey, psk);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	/* Reload config file in wireguard */
 	char command2[BUF_MEDIUM];
-	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
+	snprintf(command2, sizeof(command2), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", INTERFACE, INTERFACE);
 	system(command2);
 	printf("\tPSK was reseted\n");
 	printf("\t\tnew psk: %s\n", psk);
@@ -356,12 +356,12 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 /*
  * Function to init the PSK without HSM(INIT_PSK) and without calling wireguard reload command.
  *
- * @para interface: string of interface to identify correct config file
- * @para pk:        public key to identify peer
+ * @para peer:   number to identify peer in config struct
+ * @para config: config struct with all important information for tunnel
  */
-void init_psk(char *interface, char *pk) {
+void init_psk(int peer, struct Config config) {
 	printf("Starting init_psk...\n");
-        int ret = config_change(interface, pk, RESET_PSK);
+        int ret = config_change(INTERFACE, config.peers[peer].pubKey, RESET_PSK);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	printf("PSK was init\n");
         printf("\tnew psk: %s\n", RESET_PSK);
@@ -370,15 +370,15 @@ void init_psk(char *interface, char *pk) {
 /*
  * Function to reset the PSK without HSM(INIT_PSK).
  *
- * @para interface: string of interface to identify correct config file
- * @para pk:        public key to identify peer
+ * @para peer:   number to identify peer in config struct
+ * @para config: config struct with all important information for tunnel
  */
-void reset_psk(char *interface, char *pk) {
+void reset_psk(int peer, struct Config config) {
 	printf("\tStarting reset_psk...\n");
-	int ret = config_change(interface, pk, RESET_PSK);
+	int ret = config_change(INTERFACE, config.peers[peer].pubKey, RESET_PSK);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET );
 	char command[BUF_MEDIUM];
-	snprintf(command, sizeof(command), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", interface, interface);
+	snprintf(command, sizeof(command), "sudo bash -c \"wg addconf %s <(wg-quick strip %s)\"", INTERFACE, INTERFACE);
 	system(command);
 	printf("\tPSK was reseted\n");
 	printf("\t\tnew psk: %s\n", RESET_PSK);
@@ -387,14 +387,14 @@ void reset_psk(char *interface, char *pk) {
 /*
  * Function replaces pre-shared key of peer with corresponding public key.
  *
- * @para interface: string with interface to identify the right config file
- * @para pk:        public key of peer that needs to have psk replaced
- * @para psk:       new preshared key that needs to be inserted
+ * @para peer:   number to identify peer in config struct
+ * @para config: config struct with all important information for tunnel
+ * @para psk:    new preshared key that needs to be inserted
  */
-int config_change(char *interface, char *pk, char *psk) {
+int config_change(int peer, struct Config config, char *psk) {
 	/* Open wireguard config file */
 	char filepath[128];
-	snprintf(filepath, sizeof(filepath), "%s/%s.conf", WIREGUARD_DIR, interface);
+	snprintf(filepath, sizeof(filepath), "%s/%s.conf", WIREGUARD_DIR, INTERFACE);
 	FILE *config_file;
 	config_file = fopen(filepath, "r");
 	if(config_file == NULL)
@@ -413,7 +413,7 @@ int config_change(char *interface, char *pk, char *psk) {
 
 	/* construct PK line that needs to be search for */
 	char pk_line[BUF_MEDIUM];
-	snprintf(pk_line, sizeof(pk_line), "PublicKey = %s", pk);
+	snprintf(pk_line, sizeof(pk_line), "PublicKey = %s", config.peers[peer].pubKey);
 
 	while((read = getline(&line, &len, config_file)) != -1) {
 		/* ignore commented lines */
@@ -442,7 +442,7 @@ int config_change(char *interface, char *pk, char *psk) {
 	}
 
 	if(psk_line == -1) {
-		printf( RED "[ERROR] The psk_line is -1. This means no PresharedKey was found for given public key %s.\n" RESET, pk);
+		printf( RED "[ERROR] The psk_line is -1. This means no PresharedKey was found for given public key %s.\n" RESET, config.peers[peer].pubKey);
 		return 1;
 	}
 	fclose(config_file);
@@ -459,10 +459,10 @@ int config_change(char *interface, char *pk, char *psk) {
 /*
  * Function to reload config with new PSK by hashing (SHA256) old PSK in Base64 format.
  *
- * @para interface: string with interface to identify the right config file
- * @para pk:        public key of peer that needs to be reloaded
+ * @para peer:      number that identifies peer in config struct
+ * @para config:    config struct with the necessary data for this tunnel
  */
-void reload_config(char *interface, int peer, struct Config config) {
+void reload_config(int peer, struct Config config) {
         printf( GREEN "[PEER_%d]" RESET " Received signal to reload config file with new PSK (no HSM)...\n", peer+1);
 	/* Reload PSK with old PSK hashed with sha256sum */
 	char command[BUF_MEDIUM];
@@ -486,7 +486,7 @@ void reload_config(char *interface, int peer, struct Config config) {
 
 	/* Remove new line */
         line[strlen(line)-1] = '\0';
-        int ret = config_change(interface, config.peers[peer].pubKey, line);
+        int ret = config_change(INTERFACE, config.peers[peer].pubKey, line);
 	if(ret != 0) printf( RED "[ERROR] config_change failed\n" RESET);
 	/* Excute shell command to reload config for wireguard */
         system("sudo bash -c \"wg addconf wg0 <(wg-quick strip wg0)\"");

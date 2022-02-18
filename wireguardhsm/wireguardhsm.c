@@ -173,7 +173,7 @@ int main() {
 			memcpy(oldTimestamp, timestamp, strlen(timestamp));
 			get_timestamp(timestamp);
 			if(strcmp(oldTimestamp, timestamp) != 0) {
-				printf("[MAIN:%s] Timestamp changed to %s...\n", config.peers[peer].pubKey, timestamp);
+				printf("[PEER_%d] Timestamp changed to %s...\n", peer+1, timestamp);
 				if(ENABLE_HSM == "y") {
 					if(ENABLE_TIMESTAMP == "y") {
 						reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
@@ -195,7 +195,7 @@ int main() {
         	                                /* Message gives peer INITIATOR role */
                 	                        /* if role==RESPONDER or role==UNKNOWN set role to INITIATOR */
                         	                if((config.peers[peer].role == RESPONDER) || (config.peers[peer].role == UNKNOWN)) {
-        	                                        printf("[MAIN:%s] Role of peer has changed to INITIATOR...\n", config.peers[peer].pubKey);
+        	                                        printf("[PEER_%d] Role of peer has changed to INITIATOR...\n", peer+1);
 	       	                                        config.peers[peer].role = INITIATOR;
                 	                                config.peers[peer].pskReload = clock();
                         	                        config.peers[peer].initHandshakeCounter = 0;
@@ -205,7 +205,7 @@ int main() {
         	                                /* Message gives peer RESPONDER role */
                 	                        /* if role==INITIATOR or role==UNKNOWN set role to RESPONDER */
                         	                if((config.peers[peer].role == INITIATOR) || (config.peers[peer].role == UNKNOWN)) {
-                                	                printf("[MAIN:%s] Role of peer has changed to RESPONDER...\n", config.peers[peer].pubKey);
+                                	                printf("[PEER_%d] Role of peer has changed to RESPONDER...\n", peer+1);
                                         	        config.peers[peer].role = RESPONDER;
 	                                                config.peers[peer].pskReload = clock();
         	                                        config.peers[peer].initHandshakeCounter = 0;
@@ -216,7 +216,7 @@ int main() {
 			}
 			/* check reload time (every time) */
 			if((((clock() - config.peers[peer].pskReload)/CLOCKS_PER_SEC) >= 60) && (config.peers[peer].reloaded == false) && (config.peers[peer].connectionStarted == true)) {
-				printf("[MAIN:%s] 60 seconds passed since successful handshake (or no init handshake has arrived in 60 seconds). Reloading PSK...\n", config.peers[peer].pubKey);
+				printf("[PEER_%d] 60 seconds passed since successful handshake (or no init handshake has arrived in 60 seconds). Reloading PSK...\n", peer+1);
 	                  	reload_config(INTERFACE, peer, config);
                		        config.peers[peer].pskReload = clock();
 	                        config.peers[peer].reloaded = true;
@@ -228,19 +228,19 @@ int main() {
 	                       if(strstr(ipcMsg.msg, sending_init_handshake_line) && (msgProcessed == false) && (endpointFound == true)) {
 	                                /* count initHandshakeCounter for possible reset */
                		                config.peers[peer].initHandshakeCounter += 1;
-					printf("[MAIN:%s] Counting initHandshakeCounter to %d.\n", config.peers[peer].pubKey, config.peers[peer].initHandshakeCounter);
+					printf("[PEER_%d] Counting initHandshakeCounter to %d.\n", peer+1, config.peers[peer].initHandshakeCounter);
                        		}
 	                        /* See if initiator is getting valid handshake response */
                		        if(strstr(ipcMsg.msg, rcv_resp_handshake_line) && (msgProcessed == false) && (endpointFound == true)) {
         	                     	/* Handshake was successfully completed and msg has not yet been processed */
-	                                printf("[MAIN:%s] Resetting pskReload clock. Setting reloaded to false. Setting initHandshakeCounter to 0...\n", config.peers[peer].pubKey);
+	                                printf("[PEER_%d] Resetting pskReload clock. Setting reloaded to false. Setting initHandshakeCounter to 0...\n", peer+1);
 	                                config.peers[peer].pskReload = clock();
 	                                config.peers[peer].reloaded = false;
 					config.peers[peer].initHandshakeCounter = 0;
                		        }
 	                        /* if no valid handshake response after 6 handshake inits do reset */
                		        if(config.peers[peer].initHandshakeCounter >= 6) {
-	                                printf("[MAIN:%s] Reset because 6 init handshakes have not been anwsered validly...\n", config.peers[peer].pubKey);
+	                                printf("[PEER_%d] Reset because 6 init handshakes have not been anwsered validly...\n", peer+1);
 					if(ENABLE_HSM == "y") {
                                         	if(ENABLE_TIMESTAMP == "y") {
                                                 	reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
@@ -261,7 +261,7 @@ int main() {
 	                                config.peers[peer].pskReload = clock();
 	                                config.peers[peer].reloaded = false;
 	                                config.peers[peer].initHandshakeCounter += 1;
-					printf("[MAIN:%s] Counting initHandshakeCounter to %d.\n", config.peers[peer].pubKey, config.peers[peer].initHandshakeCounter);
+					printf("[PEER_%d] Counting initHandshakeCounter to %d.\n", peer+1, config.peers[peer].initHandshakeCounter);
                		        }
 	                        /* if handshake_completed false -> if init_handshake_counter is 6 do reset*/
                		        if(config.peers[peer].initHandshakeCounter >= 6) {

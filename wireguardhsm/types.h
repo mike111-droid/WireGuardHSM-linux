@@ -24,6 +24,8 @@
 #define BUF_TIMSTMP 256
 #define MSG_LEN     512
 #define PIN_SIZE    128
+#define RED         "\033[31m"
+#define RESET       "\033[0m"
 
 /* Msg struct is used to interprocess communication with the message queue. */
 struct Msg {

@@ -111,9 +111,9 @@ int main() {
 				continue;
 			}
 			if(ENABLE_TIMESTAMP == "y") {
-				init_psk_hsm_timestamp(INTERFACE, config.peers[idx].pubKey, timestamp);
+				init_psk_hsm_timestamp(idx, config, timestamp);
 			}else{
-				init_psk_hsm(INTERFACE, config.peers[idx].pubKey);
+				init_psk_hsm(idx, config);
 			}
 		}
 	}else{
@@ -123,7 +123,7 @@ int main() {
 				printf("This peer is empty\n");
 				continue;
 			}
-			init_psk(INTERFACE, config.peers[idx].pubKey);
+			init_psk(idx, config);
 		}
 	}
 
@@ -176,11 +176,11 @@ int main() {
 				printf( GREEN "[PEER_%d]" RESET " Timestamp changed to %s...\n", peer+1, timestamp);
 				if(ENABLE_HSM == "y") {
 					if(ENABLE_TIMESTAMP == "y") {
-						reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
+						reset_psk_hsm_timestamp(peer, config, timestamp);
 						config.peers[peer].reloaded = true;
 					}
        		                }else{
-       	       		       		reset_psk(INTERFACE, config.peers[peer].pubKey);
+       	       		       		reset_psk(peer, config);
 					config.peers[peer].reloaded = true;
                     		}
 			}
@@ -217,7 +217,7 @@ int main() {
 			/* check reload time (every time) */
 			if((((clock() - config.peers[peer].pskReload)/CLOCKS_PER_SEC) >= 60) && (config.peers[peer].reloaded == false) && (config.peers[peer].connectionStarted == true)) {
 				printf( GREEN "[PEER_%d]" RESET " 60 seconds passed since successful handshake (or no init handshake has arrived in 60 seconds). Reloading PSK...\n", peer+1);
-	                  	reload_config(INTERFACE, peer, config);
+	                  	reload_config(peer, config);
                		        config.peers[peer].pskReload = clock();
 	                        config.peers[peer].reloaded = true;
 				config.peers[peer].initHandshakeCounter = 0;
@@ -243,12 +243,12 @@ int main() {
 	                                printf( GREEN "[PEER_%d]" RESET " Reset because 6 init handshakes have not been anwsered validly...\n", peer+1);
 					if(ENABLE_HSM == "y") {
                                         	if(ENABLE_TIMESTAMP == "y") {
-                                                	reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
+                                                	reset_psk_hsm_timestamp(peer, config, timestamp);
 	       	                                }else{
-							reset_psk_hsm(INTERFACE, config.peers[peer].pubKey);
+							reset_psk_hsm(peer, config);
 						}
                 	                }else{
-                        	                reset_psk(INTERFACE, config.peers[peer].pubKey);
+                        	                reset_psk(peer, config);
 	                                }
 	                                config.peers[peer].initHandshakeCounter = 0;
                                	        config.peers[peer].reloaded = true;
@@ -267,12 +267,12 @@ int main() {
                		        if(config.peers[peer].initHandshakeCounter >= 6) {
 					if(ENABLE_HSM == "y") {
                                         	if(ENABLE_TIMESTAMP == "y") {
-                                                	reset_psk_hsm_timestamp(INTERFACE, config.peers[peer].pubKey, timestamp);
+                                                	reset_psk_hsm_timestamp(peer, config, timestamp);
         	                                }else{
-							reset_psk_hsm(INTERFACE, config.peers[peer].pubKey);
+							reset_psk_hsm(peer, config);
 						}
                 	                }else{
-                        	                reset_psk(INTERFACE, config.peers[peer].pubKey);
+                        	                reset_psk(peer, config);
         	                        }
                                         config.peers[peer].reloaded = true;
 	                                config.peers[peer].initHandshakeCounter = 0;

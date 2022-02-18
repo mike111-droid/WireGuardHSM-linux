@@ -33,6 +33,7 @@ void write_pin_to_js            (char*                       );
 
 
 /*
+ * Credit: This is from https://stackoverflow.com/a/1786733.
  * Function to get Password from user input without displaying the password on console.
  *
  * @para password: pointer to char array with size PIN_SIZE
@@ -93,6 +94,7 @@ void init_psk_hsm(char *interface, char *pk) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "Enter the PIN for the HSM: \n" RESET);
 		getPassword(pin);
+		printf("Thank you!\n");
 		/* Write PIN to java script file that needs it */
 		write_pin_to_js(pin);
 	}
@@ -158,6 +160,7 @@ void init_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "Enter the PIN for the HSM: \n" RESET );
 		getPassword(pin);
+		printf("Thank you!\n");
 		/* Write PIN to java script file that needs it */
 		write_pin_to_js(pin);
 	}
@@ -223,6 +226,7 @@ void reset_psk_hsm(char *interface, char *pk) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "\tEnter the PIN for the HSM: \n" RESET);
 		getPassword(pin);
+		printf("\tThank you!\n");
 		/* Write PIN to java script file that needs it */
 		write_pin_to_js(pin);
 	}
@@ -293,6 +297,7 @@ void reset_psk_hsm_timestamp(char *interface, char *pk, char *timestamp) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "\tEnter the PIN for the HSM: \n" RESET);
 		getPassword(pin);
+		printf("\tThank you!\n");
 		/* Write PIN to java script file that needs it */
 		write_pin_to_js(pin);
 	}

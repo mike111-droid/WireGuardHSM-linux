@@ -461,7 +461,7 @@ int config_change(char *interface, char *pk, char *psk) {
  * @para pk:        public key of peer that needs to be reloaded
  */
 void reload_config(char *interface, int peer, struct Config config) {
-        printf("Received signal to reload config file with new PSK (no HSM)...\n");
+        printf("[PEER_%d] Received signal to reload config file with new PSK (no HSM)...\n", peer+1);
 	/* Reload PSK with old PSK hashed with sha256sum */
 	char command[BUF_MEDIUM];
         snprintf(command, sizeof(command), "echo \"%s\" | tr -d \"\n\r\" | sha256sum | cut -d ' ' -f 1 | xxd -r -p | base64", config.peers[peer].psk);

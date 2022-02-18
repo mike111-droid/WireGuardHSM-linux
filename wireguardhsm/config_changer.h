@@ -29,7 +29,6 @@ void reset_psk                  (char*,  char*               );
 int  config_change              (char*,  char*,         char*);
 void reload_config              (char*,    int, struct Config);
 int  get_file_length            (FILE*                       );
-int  get_longest_fileline_length(FILE*                       );
 void write_oldpsk_to_js         (char*                       );
 void write_pin_to_js            (char*                       );
 
@@ -503,17 +502,6 @@ int get_file_length(FILE *fp) {
         }
         fseek(fp, 0, SEEK_SET);
         return lines;
-}
-
-/* FILE MUST BE OPEN TO READ */
-int get_longest_fileline_length(FILE *fp) {
-        int line_length;
-        char str[BUF_BIG];
-        while(fgets(str,sizeof(str),fp) != NULL) {
-                if(line_length < strlen(str)) line_length = strlen(str);
-        }
-        fseek(fp, 0, SEEK_SET);
-        return line_length;
 }
 
 /* Function to write oldpsk wireguard_daemon.js that is used for HSM access */

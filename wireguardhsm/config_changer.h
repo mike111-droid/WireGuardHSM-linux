@@ -372,7 +372,7 @@ void init_psk(char *interface, char *pk) {
  * @para pk:        public key to identify peer
  */
 void reset_psk(char *interface, char *pk) {
-	printf( RED "\tStarting reset_psk...\n" RESET );
+	printf("\tStarting reset_psk...\n");
 	int ret = config_change(interface, pk, RESET_PSK);
 	if(ret != 0) printf("[ERROR] config_change failed\n");
 	char command[BUF_MEDIUM];

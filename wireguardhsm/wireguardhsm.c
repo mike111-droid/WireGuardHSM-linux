@@ -156,10 +156,10 @@ int main() {
 		/* Monitor all messages form message queue */
 		if(msgrcv(msgid_main, &ipcMsg, sizeof(ipcMsg), 0, IPC_NOWAIT) == -1) {
                         if(errno != ENOMSG) {
-                                printf("[MAIN:%d] Error receiving message: %s\n", getpid(), strerror(errno));
+                                printf("[MAIN] Error receiving message: %s\n", strerror(errno));
 			}
                 }else{
-                        printf("[MAIN:%d] msgType %d\n%s", getpid(), ipcMsg.msgType, ipcMsg.msg);
+                        printf("[MAIN] msgType %d\n%s", ipcMsg.msgType, ipcMsg.msg);
 			/* mark message as not processed */
 			msgProcessed = false;
                 }

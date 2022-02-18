@@ -69,7 +69,7 @@ struct Peer {
 	int           initHandshakeCounter;
 	bool          reloaded;
 	bool          connectionStarted;
-	enum KeyTypes keyTypes;
+	enum KeyTypes keyType;
 	char          keyLabel[128];
 };
 

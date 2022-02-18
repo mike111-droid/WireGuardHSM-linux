@@ -30,7 +30,7 @@ int  config_change              (char*,  char*,         char*);
 void reload_config              (char*,    int, struct Config);
 void write_oldpsk_to_js         (char*                       );
 void write_pin_to_js            (char*                       );
-
+void write_keyLabel_to_js       (char*                       );
 
 /*
  * Credit: This is from https://stackoverflow.com/a/1786733.
@@ -506,6 +506,13 @@ void write_oldpsk_to_js(char *oldpsk) {
 void write_pin_to_js(char *pin) {
 	char command[BUF_MEDIUM];
 	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon.js", pin, SCSH_DIR);
+	system(command);
+}
+
+/* Function to write PIN to wireguard_daemon.js that is needed for HSM */
+void write_keyLabel_to_js(char *keyLabel) {
+	char command[BUF_MEDIUM];
+	snprintf(command, sizeof(command), "sed -i 's|var key = ks.sc.getKey.*|var key = ks.sc.getKey(\"%s\");|g' %s/wireguard_daemon.js", keyLabel, SCSH_DIR);
 	system(command);
 }
 /* -------------------------------------- end helper functions ---------------------------------------------*/

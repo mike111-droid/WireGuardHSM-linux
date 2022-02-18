@@ -28,7 +28,6 @@ void init_psk                   (char*,  char*               );
 void reset_psk                  (char*,  char*               );
 int  config_change              (char*,  char*,         char*);
 void reload_config              (char*,    int, struct Config);
-int  get_file_length            (FILE*                       );
 void write_oldpsk_to_js         (char*                       );
 void write_pin_to_js            (char*                       );
 
@@ -492,18 +491,6 @@ void reload_config(char *interface, int peer, struct Config config) {
 
 // TODO: Better implementation of helper functions (less sticks and stones)
 /* ------------------------------------ begin helper functions ---------------------------------------------*/
-/* FILE MUST BE OPEN TO READ */
-int get_file_length(FILE *fp) {
-        int lines = 0; char ch;
-        while(!feof(fp)) {
-                ch = fgetc(fp);
-                if(ch == '\n')
-                        lines++;
-        }
-        fseek(fp, 0, SEEK_SET);
-        return lines;
-}
-
 /* Function to write oldpsk wireguard_daemon.js that is used for HSM access */
 void write_oldpsk_to_js(char *oldpsk) {
 	char command[BUF_MEDIUM];

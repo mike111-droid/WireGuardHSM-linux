@@ -1,4 +1,4 @@
 spawn ./scsh3
 expect ">"
-send "load(\"wireguard_daemon.js\");\n"
+send "load(\"wireguard_daemon_rsa.js\");\n"
 expect ">"

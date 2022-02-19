@@ -29,7 +29,7 @@ done
 
 # Check if all necessary files are in scsh3 directory
 suffix="scsh3/"
-for name in wireguard_daemon.js wireguard_daemon.expect
+for name in wireguard_daemon_rsa.js wireguard_daemon_rsa.expect wireguard_daemon_ecc.js wireguard_daemon_ecc.expect wireguard_daemon_aes.js wireguard_daemon_aes.expect
 do
   if [ ! -f $suffix$name ];
   then

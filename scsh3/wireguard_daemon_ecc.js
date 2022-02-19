@@ -15,7 +15,7 @@ sc.verifyUserPIN(new ByteString("654321", ASCII));
 var ks = new HSMKeyStore(sc);
 
 // Get Key
-var key = ks.sc.getKey("RSA_KEY");
+var key = ks.sc.getKey("ECC_KEY");
 
 // Digest old psk
 var oldpsk = "2022.02.15.13";

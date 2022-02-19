@@ -65,11 +65,19 @@ SCSH3_DIR=${SCSH3_DIR_TMP:-$HOME/CardContact/scsh3}
 echo -e "\t-> Setting $SCSH3_DIR as SCSH3_DIR..."
 sed -i "s|#define SCSH3_DIR .*|#define SCSH3_DIR         \"$SCSH3_DIR\"|" wireguardhsm/settings.h
 echo -e "\t-> Removing wireguard_daemon.js and wireguard_daemon.ex from $SCSH3_DIR..."
-rm $SCSH3_DIR/wireguard_daemon.js
-rm $SCSH3_DIR/wireguard_daemon.expect
+rm $SCSH3_DIR/wireguard_daemon_rsa.js
+rm $SCSH3_DIR/wireguard_daemon_rsa.expect
+rm $SCSH3_DIR/wireguard_daemon_ecc.js
+rm $SCSH3_DIR/wireguard_daemon_ecc.expect
+rm $SCSH3_DIR/wireguard_daemon_aes.js
+rm $SCSH3_DIR/wireguard_daemon_aes.expect
 echo -e "\t-> Copying wireguard_daemon.js and wireguard_daemon.ex to $SCSH3_DIR..."
-cp scsh3/wireguard_daemon.js $SCSH3_DIR
-cp scsh3/wireguard_daemon.expect $SCSH3_DIR
+cp scsh3/wireguard_daemon_rsa.js $SCSH3_DIR
+cp scsh3/wireguard_daemon_rsa.expect $SCSH3_DIR
+cp scsh3/wireguard_daemon_ecc.js $SCSH3_DIR
+cp scsh3/wireguard_daemon_ecc.expect $SCSH3_DIR
+cp scsh3/wireguard_daemon_aes.js $SCSH3_DIR
+cp scsh3/wireguard_daemon_aes.expect $SCSH3_DIR
 
 # INTERFACE
 echo -en "\t"

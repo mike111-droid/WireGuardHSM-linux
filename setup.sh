@@ -108,10 +108,17 @@ sed -i "s|#define ENABLE_SECUREMODE .*|#define ENABLE_SECUREMODE \"$ENABLE_SECUR
 
 # KEY_TYPE
 echo -en "\t"
-read -p "[*] Do you want to use the option ENABLE_SECUREMODE y/n? [y] " KEY_TYPE_TMP
-KEY_TYPE=${KEY_TYPE_TMP:-y}
+read -p "[*] Enter the KEY_TYPE (options: RSA,ECC,AES) [RSA]: " KEY_TYPE_TMP
+KEY_TYPE=${KEY_TYPE_TMP:-RSA}
 echo -e "\t-> Setting $KEY_TYPE as KEY_TYPE..."
 sed -i "s|#define KEY_TYPE .*|#define KEY_TYPE          \"$KEY_TYPE\"|" wireguardhsm/settings.h
+
+# KEY_LABEL
+echo -en "\t"
+read -p "[*] ? [RSA_KEY] " KEY_LABEL_TMP
+KEY_LABEL=${KEY_LABEL_TMP:-RSA_KEY}
+echo -e "\t-> Setting $KEY_LABEL as KEY_LABEL..."
+sed -i "s|#define KEY_LABEL .*|#define KEY_LABEL         \"$KEY_LABEL\"|" wireguardhsm/settings.h
 
 gcc -o start_$INTERFACE-hsm_$ENABLE_HSM-timestamp_$ENABLE_TIMESTAMP wireguardhsm/wireguardhsm.c
 echo -e "[*] The setup is done. You can change everything in $PWD/wireguardhsm/settings.h and recompile, or restart setup.sh. Executable start_$INTERFACE-hsm_$ENABLE_HSM-timestamp_$ENABLE_TIMESTAMP was created."

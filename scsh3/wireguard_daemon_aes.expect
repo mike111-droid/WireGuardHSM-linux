@@ -1,0 +1,4 @@
+spawn ./scsh3
+expect ">"
+send "load(\"wireguard_daemon_aes.js\");\n"
+expect ">"

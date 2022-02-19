@@ -1,5 +1,5 @@
 /*
- * wireguard_daemon.js
+ * wireguard_daemon_rsa.js
  * Hashes oldpsk and signs it with the key RSA_KEY on the HSM. Then prints result in base64 to consol in format "++++<RESULT>"
  */
 

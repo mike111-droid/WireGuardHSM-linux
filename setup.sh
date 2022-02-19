@@ -115,7 +115,7 @@ sed -i "s|#define KEY_TYPE .*|#define KEY_TYPE          \"$KEY_TYPE\"|" wireguar
 
 # KEY_LABEL
 echo -en "\t"
-read -p "[*] ? [RSA_KEY] " KEY_LABEL_TMP
+read -p "[*] Enter the KEY_LABEL of key on HSM [RSA_KEY]: " KEY_LABEL_TMP
 KEY_LABEL=${KEY_LABEL_TMP:-RSA_KEY}
 echo -e "\t-> Setting $KEY_LABEL as KEY_LABEL..."
 sed -i "s|#define KEY_LABEL .*|#define KEY_LABEL         \"$KEY_LABEL\"|" wireguardhsm/settings.h

@@ -119,7 +119,7 @@ echo -en "\t"
 read -p "[*] Enter the KEY_TYPE (options: RSA,ECC,AES) [RSA]: " KEY_TYPE_TMP
 KEY_TYPE=${KEY_TYPE_TMP:-RSA}
 echo -e "\t-> Setting $KEY_TYPE as KEY_TYPE..."
-sed -i "s|#define KEY_TYPE .*|#define KEY_TYPE          \"$KEY_TYPE\"|" wireguardhsm/settings.h
+sed -i "s|#define KEY_TYPE .*|#define KEY_TYPE          $KEY_TYPE|" wireguardhsm/settings.h
 
 # KEY_LABEL
 echo -en "\t"

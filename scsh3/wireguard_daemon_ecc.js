@@ -26,7 +26,7 @@ print(hash);
 // Sign hash old psk and than hash again
 print(key);
 print(key.getType());
-print("Crypto.ECDSA");
+print("Crypto.ECDSA_SHA256");
 var signature = sc.getCrypto().sign(key, Crypto.ECDSA_SHA256, message);
 var result = crypto.digest(Crypto.SHA_256, signature);
 print("++++ " + result.toBase64().toString(ASCII));

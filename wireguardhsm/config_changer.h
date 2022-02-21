@@ -588,6 +588,18 @@ void write_pin_to_js(int peer, struct Config config, char *pin) {
 	system(command);
 }
 
+void write_pin_to_js_all(char *pin) {
+	char command[BUF_MEDIUM];
+	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_rsa.js", pin, SCSH_DIR);
+	system(command);
+	char command[BUF_MEDIUM];
+	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_ecc.js", pin, SCSH_DIR);
+	system(command);
+	char command[BUF_MEDIUM];
+	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_aes.js", pin, SCSH_DIR);
+	system(command);
+}
+
 /* Function to write PIN to wireguard_daemon.js that is needed for HSM */
 void write_keyLabel_to_js(int peer, struct Config config, char *keyLabel) {
 	char command[BUF_MEDIUM];

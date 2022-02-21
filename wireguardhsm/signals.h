@@ -27,7 +27,7 @@ void signal_callback_handler_main(int signum) {
 			exit(EXIT_FAILURE);
 		}
 		if(ENABLE_SECUREMODE != "y" && ENABLE_HSM == "y") {
-			write_pin_to_js("654321");	
+			write_pin_to_js_all("654321");	
 		}
 		printf("[MAIN] Message queue was deleted\n");
 		/* Disabling dynamic debug */

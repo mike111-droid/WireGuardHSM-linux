@@ -105,12 +105,15 @@ void init_psk_hsm(int peer, struct Config config) {
 	char command1[BUF_MEDIUM];
 	switch(config.peers[peer].keyType) {
 		case RSA:
+			printf("Using RSA...\n");
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
 			break;
 		case ECC:
+			printf("Using ECC...\n");
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
 		case AES:
+			printf("Using AES...\n");
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
 			break;
 		default:

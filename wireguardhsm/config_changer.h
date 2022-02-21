@@ -109,6 +109,8 @@ void init_psk_hsm(int peer, struct Config config) {
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
 			break;
 		case ECC:
+			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			exit(EXIT_FAILURE);
 			printf("Using ECC...\n");
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
@@ -191,6 +193,8 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
 			break;
 		case ECC:
+			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			exit(EXIT_FAILURE);
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
 		case AES:
@@ -270,6 +274,8 @@ void reset_psk_hsm(int peer, struct Config config) {
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
 			break;
 		case ECC:
+			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			exit(EXIT_FAILURE);
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
 		case AES:
@@ -354,6 +360,8 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
 			break;
 		case ECC:
+			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			exit(EXIT_FAILURE);
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
 		case AES:

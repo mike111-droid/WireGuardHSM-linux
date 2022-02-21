@@ -30,6 +30,7 @@ int  config_change              (  int, struct Config, char*);
 void reload_config              (  int, struct Config       );
 void write_oldpsk_to_js         (  int, struct Config, char*);
 void write_pin_to_js            (  int, struct Config, char*);
+void write_pin_to_js_all        (char*                      );
 void write_keyLabel_to_js       (  int, struct Config, char*);
 
 /*
@@ -110,6 +111,7 @@ void init_psk_hsm(int peer, struct Config config) {
 			break;
 		case ECC:
 			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			write_pin_to_js_all("654321");
 			exit(EXIT_FAILURE);
 			printf("Using ECC...\n");
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
@@ -194,6 +196,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 			break;
 		case ECC:
 			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			write_pin_to_js_all("654321");
 			exit(EXIT_FAILURE);
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
@@ -275,6 +278,7 @@ void reset_psk_hsm(int peer, struct Config config) {
 			break;
 		case ECC:
 			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			write_pin_to_js_all("654321");
 			exit(EXIT_FAILURE);
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;
@@ -361,6 +365,7 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 			break;
 		case ECC:
 			printf( RED "[ERROR] ECDSA  has a random componant. Different peers do not generate same PSK. Still to be solved...\n" RESET );
+			write_pin_to_js_all("654321");
 			exit(EXIT_FAILURE);
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
 			break;

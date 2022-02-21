@@ -79,7 +79,7 @@ int main() {
 
 	if(ENABLE_SECUREMODE != "y" && ENABLE_HSM == "y") {
 		char pin[PIN_SIZE];
-		printf( BOLDRED "Please enter the PIN for the HSM." RESET);
+		printf( BOLDRED "Please enter the PIN for the HSM: " RESET);
 		getPassword(pin);
 		printf("It will be stored in all wireguard_daemon_xxx.js (with access permissions asigned). This is a potential secure risk. For more security use SECUREMODE...\n");
 		write_pin_to_js_all(pin);

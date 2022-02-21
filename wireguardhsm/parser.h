@@ -183,6 +183,12 @@ void initConfig(struct Config *config, char *interface) {
 		if(strstr(line, "[Peer]") != NULL) {
 			config->peers[peerCounter].role = UNKNOWN;
 			config->peers[peerCounter].connectionStarted = false;
+			config->peers[peerCounter].keyType = KEY_TYPE;
+			if(strlen(KEY_LABEL) > sizeof(config->peers[peerCounter].keyLabel)) {
+				printf( RED "[ERROR] KEY_LABEL is too big for keyLabel of peer." RESET );
+				exit(EXIT_FAILURE);
+			}
+			memcpy(config->peers[peerCounter].keyLabel, KEY_LABEL, strlen(KEY_LABEL));
 			peerCounter++;
 		}
 		/* Check if more peers in config file than MAX_PEERS allows */

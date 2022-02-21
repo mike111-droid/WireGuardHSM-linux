@@ -28,9 +28,9 @@ void init_psk                   (  int, struct Config       );
 void reset_psk                  (  int, struct Config       );
 int  config_change              (  int, struct Config, char*);
 void reload_config              (  int, struct Config       );
-void write_oldpsk_to_js         (char*                      );
-void write_pin_to_js            (char*                      );
-void write_keyLabel_to_js       (char*                      );
+void write_oldpsk_to_js         (  int, struct Config, char*);
+void write_pin_to_js            (  int, struct Config, char*);
+void write_keyLabel_to_js       (  int, struct Config, char*);
 
 /*
  * Credit: This is from https://stackoverflow.com/a/1786733.
@@ -96,11 +96,11 @@ void init_psk_hsm(int peer, struct Config config) {
 		getPassword(pin);
 		printf("Thank you!\n");
 		/* Write PIN to java script file that needs it */
-		write_pin_to_js(pin);
+		write_pin_to_js(peer, config, pin);
 	}
 	
 	/* Write INIT_PSK to js for scsh3 execution */
-	write_oldpsk_to_js(INIT_PSK);
+	write_oldpsk_to_js(peer, config, INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
 	switch(config.peers[peer].keyType) {
@@ -144,7 +144,7 @@ void init_psk_hsm(int peer, struct Config config) {
 
 	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
-		write_pin_to_js("654321");
+		write_pin_to_js(peer, config, "654321");
 		/* Override array with PIN to make sure it is gone */
 		for(int idx = 0; idx < strlen(pin); idx++){
 			pin[idx] = '\0';
@@ -176,14 +176,27 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 		getPassword(pin);
 		printf("Thank you!\n");
 		/* Write PIN to java script file that needs it */
-		write_pin_to_js(pin);
+		write_pin_to_js(peer, config, pin);
 	}
 
 	/* Write timestamp to js for scsh3 execution */
-	write_oldpsk_to_js(timestamp);
+	write_oldpsk_to_js(peer, config, timestamp);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
+	switch(config.peers[peer].keyType) {
+		case RSA:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
+			break;
+		case ECC:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
+			break;
+		case AES:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
+			break;
+		default:
+			printf( RED "[ERROR] keyType is not supported.\n" RESET );
+			exit(EXIT_FAILURE);
+	}
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */
@@ -210,7 +223,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 
 	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
-		write_pin_to_js("654321");
+		write_pin_to_js(peer, config, "654321");
 		/* Override array with PIN to make sure it is gone */
 		for(int idx = 0; idx < strlen(pin); idx++){
 			pin[idx] = '\0';
@@ -242,14 +255,27 @@ void reset_psk_hsm(int peer, struct Config config) {
 		getPassword(pin);
 		printf("\tThank you!\n");
 		/* Write PIN to java script file that needs it */
-		write_pin_to_js(pin);
+		write_pin_to_js(peer, config, pin);
 	}
 
 	/* Write INIT_PSK to js for scsh3 execution */
-	write_oldpsk_to_js(INIT_PSK);
+	write_oldpsk_to_js(peer, config, INIT_PSK);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
+	switch(config.peers[peer].keyType) {
+		case RSA:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
+			break;
+		case ECC:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
+			break;
+		case AES:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
+			break;
+		default:
+			printf( RED "[ERROR] keyType is not supported.\n" RESET );
+			exit(EXIT_FAILURE);
+	}
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */
@@ -277,7 +303,7 @@ void reset_psk_hsm(int peer, struct Config config) {
 	
 	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
-		write_pin_to_js("654321");
+		write_pin_to_js(peer, config, "654321");
 		/* Override array with PIN to make sure it is gone */
 		for(int idx = 0; idx < strlen(pin); idx++){
 			pin[idx] = '\0';
@@ -313,14 +339,27 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 		getPassword(pin);
 		printf("\tThank you!\n");
 		/* Write PIN to java script file that needs it */
-		write_pin_to_js(pin);
+		write_pin_to_js(peer, config, pin);
 	}
 
 	/* Write timestamp to js for scsh3 execution */
-	write_oldpsk_to_js(timestamp);
+	write_oldpsk_to_js(peer, config, timestamp);
 	/* Execute js script with scsh3 and the help of expect */
 	char command1[BUF_MEDIUM];
-	snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon.expect;\"", SCSH_DIR);
+	switch(config.peers[peer].keyType) {
+		case RSA:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_rsa.expect;\"", SCSH_DIR);
+			break;
+		case ECC:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_ecc.expect;\"", SCSH_DIR);
+			break;
+		case AES:
+			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
+			break;
+		default:
+			printf( RED "[ERROR] keyType is not supported.\n" RESET );
+			exit(EXIT_FAILURE);
+	}
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */
@@ -348,7 +387,7 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 
 	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
 		/* Remove PIN from java script file */
-		write_pin_to_js("654321");
+		write_pin_to_js(peer, config, "654321");
 		/* Override array with PIN to make sure it is gone */
 		for(int idx = 0; idx < strlen(pin); idx++){
 			pin[idx] = '\0';
@@ -510,23 +549,62 @@ void reload_config(int peer, struct Config config) {
 
 /* ------------------------------------ begin helper functions ---------------------------------------------*/
 /* Function to write oldpsk wireguard_daemon.js that is used for HSM access */
-void write_oldpsk_to_js(char *oldpsk) {
+void write_oldpsk_to_js(int peer, struct Config config, char *oldpsk) {
 	char command[BUF_MEDIUM];
-	snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon.js", oldpsk, SCSH_DIR);
+	switch(config.peers[peer].keyType) {
+		case RSA:
+			snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon_rsa.js", oldpsk, SCSH_DIR);
+			break;
+		case ECC:
+			snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon_ecc.js", oldpsk, SCSH_DIR);
+			break;
+		case AES:
+			snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon_aes.js", oldpsk, SCSH_DIR);
+			break;
+		default:
+			printf( RED "[ERROR] keyType is not supported.\n" RESET );
+			exit(EXIT_FAILURE);
+	}
 	system(command);
 }
 
 /* Function to write PIN to wireguard_daemon.js that is needed for HSM */
-void write_pin_to_js(char *pin) {
+void write_pin_to_js(int peer, struct Config config, char *pin) {
 	char command[BUF_MEDIUM];
-	snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon.js", pin, SCSH_DIR);
+	switch(config.peers[peer].keyType) {
+		case RSA:
+			snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_rsa.js", pin, SCSH_DIR);
+			break;
+		case ECC:
+			snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_ecc.js", pin, SCSH_DIR);
+			break;
+		case AES:
+			snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_aes.js", pin, SCSH_DIR);
+			break;
+		default:
+			printf( RED "[ERROR] keyType is not supported.\n" RESET );
+			exit(EXIT_FAILURE);
+	}
 	system(command);
 }
 
 /* Function to write PIN to wireguard_daemon.js that is needed for HSM */
-void write_keyLabel_to_js(char *keyLabel) {
+void write_keyLabel_to_js(int peer, struct Config config, char *keyLabel) {
 	char command[BUF_MEDIUM];
-	snprintf(command, sizeof(command), "sed -i 's|var key = ks.sc.getKey.*|var key = ks.sc.getKey(\"%s\");|g' %s/wireguard_daemon.js", keyLabel, SCSH_DIR);
+	switch(config.peers[peer].keyType) {
+		case RSA:
+			snprintf(command, sizeof(command), "sed -i 's|var key = ks.sc.getKey.*|var key = ks.sc.getKey(\"%s\");|g' %s/wireguard_daemon_rsa.js", keyLabel, SCSH_DIR);
+			break;
+		case ECC:
+			snprintf(command, sizeof(command), "sed -i 's|var key = ks.sc.getKey.*|var key = ks.sc.getKey(\"%s\");|g' %s/wireguard_daemon_ecc.js", keyLabel, SCSH_DIR);
+			break;
+		case AES:
+			snprintf(command, sizeof(command), "sed -i 's|var key = ks.sc.getKey.*|var key = ks.sc.getKey(\"%s\");|g' %s/wireguard_daemon_aes.js", keyLabel, SCSH_DIR);
+			break;
+		default:
+			printf( RED "[ERROR] keyType is not supported.\n" RESET );
+			exit(EXIT_FAILURE);
+	}
 	system(command);
 }
 /* -------------------------------------- end helper functions ---------------------------------------------*/

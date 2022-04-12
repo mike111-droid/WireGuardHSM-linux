@@ -98,7 +98,7 @@ echo -en "\t"
 read -p "[*] Which VERSION do you want to use (1-4)? [1] " VERSION_TMP
 VERSION=${VERSION_TMP:-y}
 echo -e "\t-> Setting $VERSION as VERSION..."
-sed -i "s|#define VERSION .*|#define VERSION        $VERSION|" wireguardhsm/settings.h
+sed -i "s|#define VERSION .*|#define VERSION           $VERSION|" wireguardhsm/settings.h
 
 # ENABLE_HSM
 echo -en "\t"

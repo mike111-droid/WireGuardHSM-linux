@@ -43,4 +43,7 @@
 /* Label that is used to identify the key on the HSM (is used in wireguard_daemon.js) */
 #define KEY_LABEL         "RSA_KEY"
 
+/* Label that defines hardware-backed WireGuard version to use */
+#define VERSION           1
+
 #endif // SETTINGS_H

@@ -93,6 +93,13 @@ MAX_PEERS=${MAX_PEERS_TMP:-1}
 echo -e "\t-> Setting $MAX_PEERS as MAX_PEERS..."
 sed -i "s|#define MAX_PEERS .*|#define MAX_PEERS         $MAX_PEERS|" wireguardhsm/settings.h
 
+# VERSION
+echo -en "\t"
+read -p "[*] Which VERSION do you want to use (1-4)? [1] " VERSION_TMP
+VERSION=${VERSION_TMP:-y}
+echo -e "\t-> Setting $VERSION as VERSION..."
+sed -i "s|#define VERSION .*|#define VERSION        $VERSION|" wireguardhsm/settings.h
+
 # ENABLE_HSM
 echo -en "\t"
 read -p "[*] Do you want to use the option ENABLE_HSM y/n? [y] " ENABLE_HSM_TMP

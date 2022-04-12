@@ -96,7 +96,7 @@ sed -i "s|#define MAX_PEERS .*|#define MAX_PEERS         $MAX_PEERS|" wireguardh
 # VERSION
 echo -en "\t"
 read -p "[*] Which VERSION do you want to use (1-4)? [1] " VERSION_TMP
-VERSION=${VERSION_TMP:-y}
+VERSION=${VERSION_TMP:-1}
 echo -e "\t-> Setting $VERSION as VERSION..."
 sed -i "s|#define VERSION .*|#define VERSION           $VERSION|" wireguardhsm/settings.h
 

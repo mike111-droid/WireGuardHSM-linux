@@ -10,7 +10,7 @@ This program is an attempt to include a Hardware Security Module into the [Wireg
 
 ## Building
 ```
-$ git clone https://github.com/mike111-droid/WireguardHSM-linux  
+$ git clone https://github.com/mike111-droid/WireGuardHSM-linux  
 $ cd WireguardHSM-linux  
 $ bash setup
 $ sudo ./start_wg0-hsm_y-timestamp_y

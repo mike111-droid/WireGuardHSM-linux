@@ -21,7 +21,7 @@ var key = ks.sc.getKey("RSA_KEY");
 var oldpsk = "2022.02.15.13";
 var message = new ByteString(oldpsk, ASCII);
 var hash = crypto.digest(Crypto.SHA_256, message);
-print(hash);
+//print(hash);
 
 // Sign hash old psk and than hash again
 print(key);

@@ -191,7 +191,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	}
 
 	printf("%d\n", config.peers[peer].keyType);
-	printf("%d\n", config.peers[peer].keyType != ANDROID);
+	printf("%d\n", ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y" && config.peers[peer].keyType != ANDROID);
 	printf("1\n");
 	/* Write timestamp to js for scsh3 execution */
 	write_oldpsk_to_js(peer, config, timestamp);
@@ -597,7 +597,7 @@ void write_oldpsk_to_js(int peer, struct Config config, char *oldpsk) {
 			snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon_aes.js", oldpsk, SCSH_DIR);
 			break;
 		case ANDROID:
-			snprintf(command, sizeof(command), "sed -i 's|echo \"*\" | tr -d \"\n\r\" > timestamp|echo \"%s\" | tr -d \"\n\r\" > timestamp|g'", oldpsk);
+			snprintf(command, sizeof(command), "sed -i 's|echo \"*\" | tr -d \"\n\r\" > timestamp|echo \"%s\" | tr -d \"\n\r\" > timestamp|g' scsh3/rsa_key.sh", oldpsk);
 			break;
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );

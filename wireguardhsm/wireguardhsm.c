@@ -77,7 +77,7 @@ int main() {
 	char sending_resp_handshake_line[len_sending_resp_handshake_line];
 	snprintf(sending_resp_handshake_line, len_sending_resp_handshake_line, "wireguard: %s: Sending handshake response to peer", INTERFACE);
 
-	if(ENABLE_SECUREMODE != "y" && ENABLE_HSM == "y") {
+	if(ENABLE_SECUREMODE != "y" && ENABLE_HSM == "y" && KEY_TYPE != ANDROID) {
 		char pin[PIN_SIZE];
 		printf( BOLDRED "Please enter the PIN for the HSM: " RESET);
 		getPassword(pin);

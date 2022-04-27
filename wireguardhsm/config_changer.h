@@ -190,9 +190,11 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 		write_pin_to_js(peer, config, pin);
 	}
 
+	printf("1\n");
 	/* Write timestamp to js for scsh3 execution */
 	write_oldpsk_to_js(peer, config, timestamp);
 	/* Execute js script with scsh3 and the help of expect */
+	printf("2\n");
 	char command1[BUF_MEDIUM];
 	switch(config.peers[peer].keyType) {
 		case RSA:
@@ -215,6 +217,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);
 	}
+	printf("3\n");
 	FILE *fp;
         char line[BUF_BIG];
         /* Open the command for reading. */

@@ -123,7 +123,7 @@ sed -i "s|#define ENABLE_SECUREMODE .*|#define ENABLE_SECUREMODE \"$ENABLE_SECUR
 
 # KEY_TYPE
 echo -en "\t"
-read -p "[*] Enter the KEY_TYPE (options: RSA,ECC,AES) [RSA]: " KEY_TYPE_TMP
+read -p "[*] Enter the KEY_TYPE (options: RSA,ECC,AES,ANDROID) [RSA]: " KEY_TYPE_TMP
 KEY_TYPE=${KEY_TYPE_TMP:-RSA}
 echo -e "\t-> Setting $KEY_TYPE as KEY_TYPE..."
 sed -i "s|#define KEY_TYPE .*|#define KEY_TYPE          $KEY_TYPE|" wireguardhsm/settings.h

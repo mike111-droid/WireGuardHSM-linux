@@ -120,6 +120,10 @@ void init_psk_hsm(int peer, struct Config config) {
 			printf("Using AES...\n");
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
 			break;
+		case ANDROID:
+			printf("Using ANDROID...\n");
+			snprintf(command1, sizeof(command1), "bash -c \"bash scsh3/rsa_key.sh;\"");
+			break;
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);
@@ -203,6 +207,10 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 		case AES:
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
 			break;
+		case ANDROID:
+			printf("Using ANDROID...\n");
+			snprintf(command1, sizeof(command1), "bash -c \"bash scsh3/rsa_key.sh;\"");
+			break;
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);
@@ -217,7 +225,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
         }
         /* Read the output a line at a time - output it. */
         while (fgets(line, sizeof(line), fp) != NULL) {
-		/* Javascript for scsh3 prints new PSK as "++++NEWPSK\n" */
+		/* Javascript for scsh3 prints new PSK as "++++ NEWPSK\n" */
               	if(strstr(line, "++++") != NULL) {
 			break;
 		}
@@ -285,6 +293,9 @@ void reset_psk_hsm(int peer, struct Config config) {
 		case AES:
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
 			break;
+		case ANDROID:
+			snprintf(command1, sizeof(command1), "bash -c \"bash scsh3/rsa_key.sh;\"");
+			break;	
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);
@@ -371,6 +382,9 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 			break;
 		case AES:
 			snprintf(command1, sizeof(command1), "bash -c \"cd %s; expect wireguard_daemon_aes.expect;\"", SCSH_DIR);
+			break;
+		case ANDROID:
+			snprintf(command1, sizeof(command1), "bash -c \"bash scsh3/rsa_key.sh;\"");
 			break;
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
@@ -577,6 +591,9 @@ void write_oldpsk_to_js(int peer, struct Config config, char *oldpsk) {
 		case AES:
 			snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon_aes.js", oldpsk, SCSH_DIR);
 			break;
+		case ANDROID:
+			snprintf(command, sizeof(command), "sed -i 's|echo \"*\" | tr -d \"\n\r\" > timestamp*|echo \"%s\" | tr -d \"\n\r\" > timestamp", oldpsk);
+			break;
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);
@@ -597,6 +614,7 @@ void write_pin_to_js(int peer, struct Config config, char *pin) {
 		case AES:
 			snprintf(command, sizeof(command), "sed -i 's|sc.verifyUserPIN.*|sc.verifyUserPIN(new ByteString(\"%s\", ASCII));|g' %s/wireguard_daemon_aes.js", pin, SCSH_DIR);
 			break;
+		/* case Android not necessary because no pin is needed */
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);
@@ -627,6 +645,7 @@ void write_keyLabel_to_js(int peer, struct Config config, char *keyLabel) {
 		case AES:
 			snprintf(command, sizeof(command), "sed -i 's|var key = ks.sc.getKey.*|var key = ks.sc.getKey(\"%s\");|g' %s/wireguard_daemon_aes.js", keyLabel, SCSH_DIR);
 			break;
+		/* case Android not necessary because no label for ANDROID */
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );
 			exit(EXIT_FAILURE);

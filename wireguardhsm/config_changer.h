@@ -592,7 +592,7 @@ void write_oldpsk_to_js(int peer, struct Config config, char *oldpsk) {
 			snprintf(command, sizeof(command), "sed -i 's|var oldpsk =.*|var oldpsk = \"%s\";|g' %s/wireguard_daemon_aes.js", oldpsk, SCSH_DIR);
 			break;
 		case ANDROID:
-			snprintf(command, sizeof(command), "sed -i 's#echo \".*\" | tr -d .*#echo \"%s\" | tr -d \"\n\r\" > timestamp#g' scsh3/rsa_key.sh", oldpsk);
+			snprintf(command, sizeof(command), "sed -i 's#echo \".*\" | tr -d .*#echo \"%s\" | tr -d \"\\\\n\\\\r\" > timestamp#g' scsh3/rsa_key.sh", oldpsk);
 			break;
 		default:
 			printf( RED "[ERROR] keyType is not supported.\n" RESET );

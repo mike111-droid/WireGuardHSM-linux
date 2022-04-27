@@ -217,9 +217,9 @@ int main() {
 			}
 			/* check reload time (every time) */
 			if((((clock() - config.peers[peer].pskReload)/CLOCKS_PER_SEC) >= 60) && (config.peers[peer].reloaded == false) && (config.peers[peer].connectionStarted == true)) {
-				printf( GREEN "[PEER_%d]" RESET " 60 seconds passed since successful handshake (or no init handshake has arrived in 60 seconds). Reloading PSK...\n", peer+1);
-	                  	if(VERSION != 1) {
-					reload_config(peer, config);	
+				if(VERSION != 1) {
+					printf( GREEN "[PEER_%d]" RESET " 60 seconds passed since successful handshake (or no init handshake has arrived in 60 seconds). Reloading PSK...\n", peer+1);
+					reload_config(peer, config);
 				}
                		        config.peers[peer].pskReload = clock();
 	                        config.peers[peer].reloaded = true;

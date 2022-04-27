@@ -56,7 +56,7 @@ struct Interface {
 };
 
 /* Enum of possible key types */
-enum KeyTypes { RSA, ECC, AES };
+enum KeyTypes { RSA, ECC, AES, ANDROID };
 
 /* Peer struct is used to save important peer data from config file and for overall peer depandant infos of daemon. */
 struct Peer {

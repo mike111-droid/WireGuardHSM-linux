@@ -91,7 +91,7 @@ void init_psk_hsm(int peer, struct Config config) {
 	printf("Starting init_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y" && config.peers[peer].keyType != ANDROID) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "Enter the PIN for the HSM: \n" RESET);
 		getPassword(pin);
@@ -181,7 +181,7 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	printf("Starting init_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y" && config.peers[peer].keyType != ANDROID) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "Enter the PIN for the HSM: \n" RESET );
 		getPassword(pin);
@@ -267,7 +267,7 @@ void reset_psk_hsm(int peer, struct Config config) {
 	printf("\tStarting reset_psk_hsm...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y" && config.peers[peer].keyType != ANDROID) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "\tEnter the PIN for the HSM: \n" RESET);
 		getPassword(pin);
@@ -357,7 +357,7 @@ void reset_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 	printf("\tStarting reset_psk_hsm_timestamp...\n");
 
 	char pin[PIN_SIZE];
-	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y") {
+	if(ENABLE_SECUREMODE == "y" && ENABLE_HSM == "y" && config.peers[peer].keyType != ANDROID) {
 		/* Get PIN for HSM access */
 		printf( BOLDRED "\tEnter the PIN for the HSM: \n" RESET);
 		getPassword(pin);

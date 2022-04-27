@@ -190,6 +190,8 @@ void init_psk_hsm_timestamp(int peer, struct Config config, char *timestamp) {
 		write_pin_to_js(peer, config, pin);
 	}
 
+	printf("%d\n", config.peers[peer].keyType);
+	printf("%d\n", config.peers[peer].keyType != ANDROID);
 	printf("1\n");
 	/* Write timestamp to js for scsh3 execution */
 	write_oldpsk_to_js(peer, config, timestamp);

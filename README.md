@@ -24,8 +24,6 @@ $ sudo ./start_wg0-hsm_y-timestamp_y
 - [X] **Program output:** For more than one peer the output of the program gets messy because one cannot tell which output belongs to which peer.
 - [X] **Allow different keys:** Allow the use of RSA, ECC and AES keys. Create alternative java scripts to perform these operations and allow *setup.sh* to choose which key the tunnel should use.
 - [X] **Key Label Managment:** Key label is written in *scsh3/wireguard_daemon_xxx.js*. Should be more accessiable to user (over setup.sh). Similar to *Allow different keys* (User can decide which tunnel uses which key).
-- [ ] **Key Label Managment:** Allow different key labels for different peers.
-- [ ] **Allow different keys:** For peers also.
 - [ ] **pcscd problem:** WireguardHSM only seems to be working if *pcscd* is started with *sudo pcscd -d -f* and not with systemctl.
 
 ## Functionality
